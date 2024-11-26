@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Westwood Basketball Betting</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Westwood Basketball Betting</h1>
+            <p>Place your bets on Westwood's basketball players!</p>
+        </header>
+
+        <div class="betting-form">
+            <h2>Place Your Bet</h2>
+            <form id="betForm">
+                <!-- Player Selection -->
+                <div class="form-group">
+                    <label for="player">Select Player:</label>
+                    <select id="player" name="player">
+                        <option value="Matthew Suk">Matthew Suk</option>
+                        <option value="Ari Piller">Ari Piller</option>
+                        <option value="Evan Ludeman">Evan Ludeman</option>
+                        <option value="Valin Lively">Valin Lively</option>
+                        <option value="Reeyan Mistry">Reeyan Mistry</option>
+                        <option value="Arman Aslan">Arman Aslan</option>
+                        <option value="Jibran Farooq">Jibran Farooq</option>
+                        <option value="Knox Cordes">Knox Cordes</option>
+                        <option value="Usman Siddiqui">Usman Siddiqui</option>
+                        <option value="Ntito Josiah-Olu">Ntito Josiah-Olu</option>
+                        <option value="Cyrus Terry">Cyrus Terry</option>
+                        <option value="Pierre Tissot">Pierre Tissot</option>
+                        <option value="Mark Djomo">Mark Djomo</option>
+                    </select>
+                </div>
+
+                <!-- Stat Selection -->
+                <div class="form-group">
+                    <label for="stat">Select Stat:</label>
+                    <select id="stat" name="stat">
+                        <option value="points">Points</option>
+                        <option value="assists">Assists</option>
+                        <option value="rebounds">Rebounds</option>
+                    </select>
+                </div>
+
+                <!-- Bet Amount Input -->
+                <div class="form-group">
+                    <label for="amount">Enter Bet Amount (in ς):</label>
+                    <input type="number" id="amount" name="amount" min="1" required>
+                </div>
+
+                <!-- Stat Amount Input (expected number for stat) -->
+                <div class="form-group">
+                    <label for="expected-stat">Enter Expected Stat Amount:</label>
+                    <input type="number" id="expected-stat" name="expected-stat" required placeholder="e.g. 20">
+                </div>
+
+                <!-- Bet Summary -->
+                <div class="bet-summary">
+                    <h3>Your Bet Summary</h3>
+                    <p id="summary">Select your bet details to see the summary.</p>
+                </div>
+
+                <button type="submit">Place Bet</button>
+            </form>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Westwood School. All Rights Reserved.</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
