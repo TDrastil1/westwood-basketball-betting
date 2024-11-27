@@ -17,6 +17,12 @@
         <div class="betting-form">
             <h2>Place Your Bet</h2>
             <form id="betForm">
+                <!-- User Name -->
+                <div class="form-group">
+                    <label for="userName">Your Name:</label>
+                    <input type="text" id="userName" name="userName" placeholder="Enter your name" required>
+                </div>
+
                 <!-- Player Selection -->
                 <div class="form-group">
                     <label for="player">Select Player:</label>
@@ -27,9 +33,6 @@
                         <option value="Valin Lively">Valin Lively</option>
                         <option value="Reeyan Mistry">Reeyan Mistry</option>
                         <option value="Arman Aslan">Arman Aslan</option>
-                        <option value="Jibran Farooq">Jibran Farooq</option>
-                        <option value="Knox Cordes">Knox Cordes</option>
-                        <option value="Usman Siddiqui">Usman Siddiqui</option>
                         <option value="Ntito Josiah-Olu">Ntito Josiah-Olu</option>
                         <option value="Cyrus Terry">Cyrus Terry</option>
                         <option value="Pierre Tissot">Pierre Tissot</option>
@@ -46,17 +49,17 @@
                         <option value="rebounds">Rebounds</option>
                     </select>
                 </div>
-                
-                <!-- Stat Amount Input (expected number for stat) -->
-                <div class="form-group">
-                    <label for="expected-stat">Enter Expected Stat Amount:</label>
-                    <input type="number" id="expected-stat" name="expected-stat" required placeholder="e.g. 20">
-                </div>
-                
+
                 <!-- Bet Amount Input -->
                 <div class="form-group">
                     <label for="amount">Enter Bet Amount (in ς):</label>
                     <input type="number" id="amount" name="amount" min="1" required>
+                </div>
+
+                <!-- Stat Amount Input -->
+                <div class="form-group">
+                    <label for="expected-stat">Enter Expected Stat Amount:</label>
+                    <input type="number" id="expected-stat" name="expected-stat" required placeholder="e.g. 20">
                 </div>
 
                 <!-- Bet Summary -->
@@ -65,14 +68,21 @@
                     <p id="summary">Select your bet details to see the summary.</p>
                 </div>
 
-                <button type="submit">Place Bet</button>
+                <button type="submit" class="btn">Place Bet</button>
             </form>
+        </div>
+
+        <!-- Scoreboard -->
+        <div class="scoreboard">
+            <h2>Player Scoreboard</h2>
+            <div id="scoreboard-content">
+                <p>No stats recorded yet. Select a player to view their stats.</p>
+            </div>
         </div>
 
         <footer>
             <p>&copy; 2024 Westwood School. All Rights Reserved.</p>
         </footer>
-
     </div>
 
     <script src="script.js"></script>
