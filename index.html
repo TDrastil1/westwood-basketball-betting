@@ -17,13 +17,10 @@
         <div class="betting-form">
             <h2>Place Your Bet</h2>
             <form id="betForm">
-                <!-- User Name -->
                 <div class="form-group">
                     <label for="userName">Your Name:</label>
                     <input type="text" id="userName" name="userName" placeholder="Enter your name" required>
                 </div>
-
-                <!-- Player Selection -->
                 <div class="form-group">
                     <label for="player">Select Player:</label>
                     <select id="player" name="player">
@@ -39,8 +36,6 @@
                         <option value="Mark Djomo">Mark Djomo</option>
                     </select>
                 </div>
-
-                <!-- Stat Selection -->
                 <div class="form-group">
                     <label for="stat">Select Stat:</label>
                     <select id="stat" name="stat">
@@ -49,30 +44,18 @@
                         <option value="rebounds">Rebounds</option>
                     </select>
                 </div>
-
-                <!-- Expected Stat and Bet Amount Inputs -->
                 <div class="form-group">
                     <label for="expected-stat">Enter Expected Stat Amount:</label>
                     <input type="number" id="expected-stat" name="expected-stat" required placeholder="e.g. 20">
                 </div>
-
                 <div class="form-group">
                     <label for="amount">Enter Bet Amount (in ς):</label>
                     <input type="number" id="amount" name="amount" min="1" required>
                 </div>
-
-                <!-- Bet Summary (Hidden for now) -->
-                <div class="bet-summary">
-                    <h3>Your Bet Summary</h3>
-                    <p id="summary">Select your bet details to see the summary.</p>
-                </div>
-
-                <!-- Possible Payout Section -->
                 <div class="payout-summary">
                     <h3>Possible Payout</h3>
-                    <p id="payout">Select player and stat to calculate the payout.</p>
+                    <div id="payout">Fill in your bet details to see the payout.</div>
                 </div>
-
             </form>
         </div>
 
@@ -88,7 +71,6 @@
                     </tr>
                 </thead>
                 <tbody id="scoreboard-body">
-                    <!-- Player stats will populate here -->
                 </tbody>
             </table>
         </div>
@@ -96,85 +78,75 @@
         <footer>
             <p>&copy; 2024 Westwood School. All Rights Reserved.</p>
         </footer>
-    </div>
 
-    <script>
-        // Player stats based on your provided data
-        const playerStats = {
-            "Matthew Suk": { points: 2.0, assists: 4.0, rebounds: 4.0 },
-            "Ari Piller": { points: 10.0, assists: 3.0, rebounds: 3.0 },
-            "Evan Ludeman": { points: 4.0, assists: 4.0, rebounds: 0.0 },
-            "Valin Lively": { points: 0.0, assists: 1.0, rebounds: 4.0 },
-            "Reeyan Mistry": { points: 2.0, assists: 0.0, rebounds: 1.0 },
-            "Arman Aslan": { points: 0.0, assists: 3.0, rebounds: 4.0 },
-            "Ntito Josiah-Olu": { points: 0.0, assists: 0.0, rebounds: 0.0 },
-            "Cyrus Terry": { points: 4.0, assists: 6.0, rebounds: 3.0 },
-            "Pierre Tissot": { points: 14.0, assists: 6.0, rebounds: 6.0 },
-            "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
-        };
+        <script>
+            const playerStats = {
+                "Matthew Suk": { points: 2.0, assists: 4.0, rebounds: 4.0 },
+                "Ari Piller": { points: 10.0, assists: 3.0, rebounds: 3.0 },
+                "Evan Ludeman": { points: 4.0, assists: 4.0, rebounds: 0.0 },
+                "Valin Lively": { points: 0.0, assists: 1.0, rebounds: 4.0 },
+                "Reeyan Mistry": { points: 2.0, assists: 0.0, rebounds: 1.0 },
+                "Arman Aslan": { points: 0.0, assists: 3.0, rebounds: 4.0 },
+                "Ntito Josiah-Olu": { points: 0.0, assists: 0.0, rebounds: 0.0 },
+                "Cyrus Terry": { points: 4.0, assists: 6.0, rebounds: 3.0 },
+                "Pierre Tissot": { points: 14.0, assists: 6.0, rebounds: 6.0 },
+                "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
+            };
 
-        // Function to update the scoreboard with stats
-        function updateScoreboard() {
-            const scoreboardBody = document.getElementById("scoreboard-body");
-            scoreboardBody.innerHTML = ''; // Clear current stats
+            // Populate scoreboard
+            function updateScoreboard() {
+                const scoreboardBody = document.getElementById("scoreboard-body");
+                scoreboardBody.innerHTML = '';
+                for (let player in playerStats) {
+                    const stats = playerStats[player];
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${player}</td>
+                        <td>${stats.points}</td>
+                        <td>${stats.assists}</td>
+                        <td>${stats.rebounds}</td>
+                    `;
+                    scoreboardBody.appendChild(row);
+                }
+            }
 
-            // Loop through playerStats and display each player's stats in the table
-            for (let player in playerStats) {
+            // Calculate payout dynamically
+            document.getElementById("betForm").addEventListener("input", function (event) {
+                event.preventDefault();
+                const player = document.getElementById("player").value;
+                const stat = document.getElementById("stat").value;
+                const amount = parseFloat(document.getElementById("amount").value);
+                const expectedStat = parseFloat(document.getElementById("expected-stat").value);
+
+                if (!player || !stat || isNaN(amount) || isNaN(expectedStat)) {
+                    document.getElementById("payout").innerHTML = "Please fill in all fields.";
+                    return;
+                }
+
                 const stats = playerStats[player];
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${player}</td>
-                    <td>${stats.points}</td>
-                    <td>${stats.assists}</td>
-                    <td>${stats.rebounds}</td>
+                const averageStat = stats[stat];
+
+                if (averageStat === 0 || expectedStat === 0) {
+                    document.getElementById("payout").innerHTML = "Invalid bet.";
+                    return;
+                }
+
+                const oddsMultiplier = expectedStat / averageStat;
+                const payout = amount * oddsMultiplier;
+
+                document.getElementById("payout").innerHTML = `
+                    <p><strong>Player:</strong> ${player}</p>
+                    <p><strong>Stat:</strong> ${stat.charAt(0).toUpperCase() + stat.slice(1)}</p>
+                    <p><strong>Average ${stat}:</strong> ${averageStat.toFixed(2)}</p>
+                    <p><strong>Expected ${stat}:</strong> ${expectedStat.toFixed(2)}</p>
+                    <p><strong>Odds Multiplier:</strong> ${oddsMultiplier.toFixed(2)}</p>
+                    <p><strong>Possible Payout:</strong> ${payout.toFixed(2)} ς</p>
                 `;
-                scoreboardBody.appendChild(row);
-            }
-        }
+            });
 
-        // Handle form submission to calculate the possible payout
-        document.getElementById("betForm").addEventListener("input", function (event) {
-            event.preventDefault(); // Prevent the form from submitting the default way
-
-            // Get values from the form
-            let player = document.getElementById("player").value;
-            let stat = document.getElementById("stat").value;
-            let amount = parseFloat(document.getElementById("amount").value); // Ensure bet amount is a number
-            let expectedStat = parseFloat(document.getElementById("expected-stat").value); // Ensure expected stat is a number
-
-            // Update possible payout
-            updatePayout(player, stat, expectedStat, amount);
-        });
-
-        // Function to update the possible payout based on stats
-        function updatePayout(player, stat, expectedStat, amount) {
-            const stats = playerStats[player];
-            if (!stats) {
-                document.getElementById("payout").innerHTML = `<p>No stats available for this player.</p>`;
-                return;
-            }
-
-            // Get the actual stat value
-            const actualStat = stats[stat];
-
-            // Calculate the payout (simple multiplier logic)
-            let payout = 0;
-            if (actualStat >= expectedStat) {
-                payout = amount * 2; // Fixed payout multiplier (2x the bet amount)
-            } else {
-                payout = amount * 1.5; // If actual stat is less, 1.5x payout
-            }
-
-            // Display the possible payout
-            document.getElementById("payout").innerHTML = `
-                <p><strong>Actual ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${actualStat}</p>
-                <p><strong>Expected ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${expectedStat}</p>
-                <p><strong>Possible Payout:</strong> ${payout.toFixed(2)} ς</p>
-            `;
-        }
-
-        // Initialize the scoreboard when the page loads
-        updateScoreboard();
-    </script>
+            // Initialize the scoreboard
+            updateScoreboard();
+        </script>
+    </div>
 </body>
 </html>
