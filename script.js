@@ -37,29 +37,25 @@ function updatePayout(player, stat, expectedStat, amount) {
     // Get the player's average stat value
     const averageStat = stats[stat];
 
-    // Calculate the difficulty factor
-    const difficultyFactor = expectedStat / averageStat;
-
-    // Calculate the risk multiplier based on the expected stat
-    const riskMultiplier = 1 + expectedStat / 10;
-
-    // Determine the base multiplier
-    let baseMultiplier = 0;
-    if (averageStat >= expectedStat) {
-        baseMultiplier = 1.5; // Less payout for lower-risk bets
-    } else {
-        baseMultiplier = 2; // Higher payout for riskier bets
+    // Ensure valid stats for calculations
+    if (averageStat === 0 || expectedStat === 0) {
+        document.getElementById("payout").innerHTML = `<p>Invalid bet: Expected stat and average stat must be greater than 0.</p>`;
+        return;
     }
 
-    // Calculate the final payout
-    const payout = amount * baseMultiplier * riskMultiplier * difficultyFactor;
+    // Calculate the odds multiplier
+    const oddsMultiplier = expectedStat / averageStat;
 
-    // Display the possible payout and risk details
+    // Calculate the payout
+    const payout = amount * oddsMultiplier;
+
+    // Display the possible payout and odds details
     document.getElementById("payout").innerHTML = `
-        <p><strong>Actual ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${averageStat}</p>
-        <p><strong>Expected ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${expectedStat}</p>
-        <p><strong>Difficulty Factor:</strong> ${difficultyFactor.toFixed(2)}</p>
-        <p><strong>Risk Multiplier:</strong> ${riskMultiplier.toFixed(2)}</p>
+        <p><strong>Player:</strong> ${player}</p>
+        <p><strong>Stat:</strong> ${stat.charAt(0).toUpperCase() + stat.slice(1)}</p>
+        <p><strong>Average ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${averageStat.toFixed(2)}</p>
+        <p><strong>Expected ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${expectedStat.toFixed(2)}</p>
+        <p><strong>Odds Multiplier:</strong> ${oddsMultiplier.toFixed(2)}</p>
         <p><strong>Possible Payout:</strong> ${payout.toFixed(2)} ς</p>
     `;
 }
