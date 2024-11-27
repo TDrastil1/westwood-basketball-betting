@@ -12,7 +12,7 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Handle form submission to calculate the possible payout
+// Handle form input to calculate the possible payout dynamically
 document.getElementById("betForm").addEventListener("input", function (event) {
     event.preventDefault(); // Prevent the form from submitting the default way
 
