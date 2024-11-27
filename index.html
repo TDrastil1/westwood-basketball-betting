@@ -68,16 +68,14 @@
                     <p id="summary">Select your bet details to see the summary.</p>
                 </div>
 
-                <button type="submit" class="btn">Place Bet</button>
-            </form>
-        </div>
+                <!-- Possible Payout Section -->
+                <div class="payout-summary">
+                    <h3>Possible Payout</h3>
+                    <p id="payout">Select player and stat to calculate the payout.</p>
+                </div>
 
-        <!-- Scoreboard -->
-        <div class="scoreboard">
-            <h2>Player Scoreboard</h2>
-            <div id="scoreboard-content">
-                <p>No stats recorded yet. Select a player to view their stats.</p>
-            </div>
+                <button type="submit">Place Bet</button>
+            </form>
         </div>
 
         <footer>
@@ -85,6 +83,75 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Player stats (based on your provided data)
+        const playerStats = {
+            "Matthew Suk": { points: 2.0, assists: 4.0, rebounds: 4.0 },
+            "Ari Piller": { points: 10.0, assists: 3.0, rebounds: 3.0 },
+            "Evan Ludeman": { points: 4.0, assists: 4.0, rebounds: 0.0 },
+            "Valin Lively": { points: 0.0, assists: 1.0, rebounds: 4.0 },
+            "Reeyan Mistry": { points: 2.0, assists: 0.0, rebounds: 1.0 },
+            "Arman Aslan": { points: 0.0, assists: 3.0, rebounds: 4.0 },
+            "Ntito Josiah-Olu": { points: 0.0, assists: 0.0, rebounds: 0.0 },
+            "Cyrus Terry": { points: 4.0, assists: 6.0, rebounds: 3.0 },
+            "Pierre Tissot": { points: 14.0, assists: 6.0, rebounds: 6.0 },
+            "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
+        };
+
+        // Handle form submission
+        document.getElementById("betForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            // Get values from the form
+            let player = document.getElementById("player").value;
+            let stat = document.getElementById("stat").value;
+            let amount = document.getElementById("amount").value;
+            let expectedStat = document.getElementById("expected-stat").value;
+            let userName = document.getElementById("userName").value; // Get the user's name
+
+            // Create a summary for the bet
+            let betSummary = `
+                <p><strong>Your Name:</strong> ${userName}</p>
+                <p><strong>Player:</strong> ${player}</p>
+                <p><strong>Stat:</strong> ${stat.charAt(0).toUpperCase() + stat.slice(1)}</p>
+                <p><strong>Expected Amount:</strong> ${expectedStat}</p>
+                <p><strong>Bet Amount:</strong> ${amount} ς</p>
+                <p><strong>Bet Type:</strong> Over</p>
+            `;
+
+            // Show the summary to the user
+            document.getElementById("summary").innerHTML = betSummary;
+
+            // Update the possible payout
+            updatePayout(player, stat, expectedStat, amount);
+        });
+
+        // Function to update the possible payout based on stats
+        function updatePayout(player, stat, expectedStat, amount) {
+            const stats = playerStats[player];
+            if (!stats) {
+                document.getElementById("payout").innerHTML = `<p>No stats available for this player.</p>`;
+                return;
+            }
+
+            // Get the actual stat value
+            const actualStat = stats[stat];
+
+            // Calculate the payout (simple multiplier logic)
+            let payout = 0;
+            if (actualStat >= expectedStat) {
+                payout = amount * 1.5; // If actual stat is greater than or equal to expected, 1.5x payout
+            } else {
+                payout = amount * 1.2; // If actual stat is less, 1.2x payout
+            }
+
+            // Display the possible payout
+            document.getElementById("payout").innerHTML = `
+                <p><strong>Actual ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${actualStat}</p>
+                <p><strong>Expected ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${expectedStat}</p>
+                <p><strong>Possible Payout:</strong> ${payout} ς</p>
+            `;
+        }
+    </script>
 </body>
 </html>
