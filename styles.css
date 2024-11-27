@@ -8,21 +8,21 @@
 
 /* Body Styling */
 body {
-    background-color: #f5f5dc; /* Beige background */
+    background-color: #faf3e0; /* Soft beige background */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    color: #333;
+    color: #4a403a; /* Warm dark beige */
 }
 
 /* Main Container */
 .container {
-    background: #ffffff; /* White background for the form */
+    background: #fff8e6; /* Light beige for the form background */
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+    max-width: 700px;
     width: 100%;
     padding: 20px;
     text-align: center;
@@ -30,21 +30,21 @@ body {
 
 /* Header Styling */
 header h1 {
-    font-size: 1.8rem;
-    color: #2c593e; /* Green for headings */
+    font-size: 2rem;
+    color: #ccaa6b; /* Muted yellow for titles */
     margin-bottom: 10px;
 }
 
 header p {
-    font-size: 0.9rem;
-    color: #556b5c; /* Subtle greenish-gray */
+    font-size: 1rem;
+    color: #8b7a60; /* Muted brown-beige */
     margin-bottom: 20px;
 }
 
 /* Form Section */
 .betting-form h2 {
-    font-size: 1.4rem;
-    color: #2c593e; /* Green heading */
+    font-size: 1.6rem;
+    color: #d4a658; /* Muted yellow for section titles */
     margin-bottom: 20px;
 }
 
@@ -55,9 +55,9 @@ header p {
 }
 
 label {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: bold;
-    color: #344b39; /* Dark green for labels */
+    color: #4a403a; /* Warm dark beige for labels */
     margin-bottom: 5px;
     display: inline-block;
 }
@@ -66,16 +66,16 @@ input, select {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid #dcdcdc; /* Light beige border */
+    border: 1px solid #e8dcc1; /* Light beige border */
     border-radius: 5px;
     outline: none;
+    background-color: #fefaf0; /* Very light beige */
     transition: border-color 0.3s, background-color 0.3s;
-    background-color: #fefdf6; /* Light beige input background */
 }
 
 input:focus, select:focus {
-    border-color: #2c593e; /* Green focus effect */
-    background-color: #ffffff; /* White on focus */
+    border-color: #d4a658; /* Muted yellow focus */
+    background-color: #fffdf6; /* Slightly brighter on focus */
 }
 
 /* Button */
@@ -85,8 +85,8 @@ input:focus, select:focus {
     padding: 10px;
     font-size: 1rem;
     font-weight: bold;
-    background-color: #2c593e; /* Green background */
-    color: #ffffff; /* White text */
+    background-color: #d4a658; /* Muted yellow for button background */
+    color: #fff8e6; /* Light beige text */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -94,25 +94,46 @@ input:focus, select:focus {
 }
 
 .btn:hover {
-    background-color: #23472e; /* Darker green on hover */
+    background-color: #b99245; /* Darker yellow on hover */
     transform: translateY(-2px); /* Subtle lift effect */
 }
 
 /* Bet Summary */
 .bet-summary h3 {
-    font-size: 1.2rem;
-    color: #2c593e; /* Green heading */
+    font-size: 1.4rem;
+    color: #ccaa6b; /* Muted yellow for headings */
     margin-bottom: 10px;
 }
 
 #summary {
+    font-size: 1rem;
+    color: #8b7a60; /* Subtle beige-brown text */
+}
+
+/* Scoreboard Section */
+.scoreboard {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.scoreboard h2 {
+    font-size: 1.6rem;
+    color: #d4a658; /* Muted yellow for section titles */
+    margin-bottom: 10px;
+}
+
+#scoreboard-content {
+    background-color: #fff8e6; /* Light beige for content background */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 0.9rem;
-    color: #556b5c; /* Subtle green-gray text */
+    color: #4a403a;
 }
 
 /* Footer */
 footer {
     margin-top: 20px;
     font-size: 0.8rem;
-    color: #aaa; /* Light gray text for footer */
+    color: #a89578; /* Muted beige for footer */
 }
