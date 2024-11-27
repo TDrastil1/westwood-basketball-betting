@@ -34,27 +34,31 @@ function updatePayout(player, stat, expectedStat, amount) {
         return;
     }
 
-    // Get the actual stat value
-    const actualStat = stats[stat];
+    // Get the player's average stat value
+    const averageStat = stats[stat];
+
+    // Calculate the difficulty factor
+    const difficultyFactor = expectedStat / averageStat;
 
     // Calculate the risk multiplier based on the expected stat
     const riskMultiplier = 1 + expectedStat / 10;
 
-    // Calculate the base multiplier based on actual stat performance
+    // Determine the base multiplier
     let baseMultiplier = 0;
-    if (actualStat >= expectedStat) {
-        baseMultiplier = 2; // Higher payout for successful, riskier bets
+    if (averageStat >= expectedStat) {
+        baseMultiplier = 1.5; // Less payout for lower-risk bets
     } else {
-        baseMultiplier = 1.5; // Lower payout for safer bets
+        baseMultiplier = 2; // Higher payout for riskier bets
     }
 
-    // Calculate the total payout
-    const payout = amount * baseMultiplier * riskMultiplier;
+    // Calculate the final payout
+    const payout = amount * baseMultiplier * riskMultiplier * difficultyFactor;
 
-    // Display the possible payout and risk multiplier
+    // Display the possible payout and risk details
     document.getElementById("payout").innerHTML = `
-        <p><strong>Actual ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${actualStat}</p>
+        <p><strong>Actual ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${averageStat}</p>
         <p><strong>Expected ${stat.charAt(0).toUpperCase() + stat.slice(1)}:</strong> ${expectedStat}</p>
+        <p><strong>Difficulty Factor:</strong> ${difficultyFactor.toFixed(2)}</p>
         <p><strong>Risk Multiplier:</strong> ${riskMultiplier.toFixed(2)}</p>
         <p><strong>Possible Payout:</strong> ${payout.toFixed(2)} ς</p>
     `;
