@@ -21,14 +21,16 @@ document.getElementById("betForm").addEventListener("submit", function (event) {
     let stat = document.getElementById("stat").value;
     let amount = document.getElementById("amount").value;
     let expectedStat = document.getElementById("expected-stat").value;
+    let userName = document.getElementById("userName").value; // Get the user's name
 
     // Create a summary for the bet
     let betSummary = `
-        Player: ${player} <br>
-        Stat: ${stat.charAt(0).toUpperCase() + stat.slice(1)} <br>
-        Expected Amount: ${expectedStat} <br>
-        Bet Amount: ${amount} ς <br>
-        Bet Type: Over
+        <p><strong>Your Name:</strong> ${userName}</p>
+        <p><strong>Player:</strong> ${player}</p>
+        <p><strong>Stat:</strong> ${stat.charAt(0).toUpperCase() + stat.slice(1)}</p>
+        <p><strong>Expected Amount:</strong> ${expectedStat}</p>
+        <p><strong>Bet Amount:</strong> ${amount} ς</p>
+        <p><strong>Bet Type:</strong> Over</p>
     `;
 
     // Show the summary to the user
@@ -39,6 +41,7 @@ document.getElementById("betForm").addEventListener("submit", function (event) {
         method: "POST",
         body: JSON.stringify({
             _subject: "New Basketball Bet!",
+            userName: userName, // Send the user's name
             player: player,
             stat: stat,
             expectedStat: expectedStat,
