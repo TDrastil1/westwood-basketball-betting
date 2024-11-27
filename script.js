@@ -49,32 +49,34 @@ document.getElementById("betForm").addEventListener("input", function (event) {
         averageStat = 1; // Default average for players with no stats
     }
 
-    // Calculate the odds multiplier
-    const oddsMultiplier = expectedStat / averageStat;
+    // Calculate the risk level (higher risk for larger gaps between expectedStat and averageStat)
+    const riskFactor = expectedStat / averageStat;
 
-    // Adjust the house margin for better balance: 10% for low-risk bets, more for high-risk bets
-    let houseMargin = 0.1; // 10% house margin for low-risk bets
-
-    // For higher-risk bets, reduce the house margin slightly (lower risk, higher margin)
-    if (oddsMultiplier > 1.5) {
-        houseMargin = 0.15; // 15% for more risky bets (higher payout)
+    // Define the house margin dynamically based on risk
+    let houseMargin;
+    if (riskFactor <= 1.1) {
+        houseMargin = 0.45; // 45% margin for very low-risk bets
+    } else if (riskFactor <= 1.5) {
+        houseMargin = 0.3; // 30% margin for medium-low risk
+    } else if (riskFactor <= 2) {
+        houseMargin = 0.15; // 15% margin for medium-high risk
+    } else {
+        houseMargin = 0.1; // 10% margin for high-risk bets
     }
 
-    // Calculate final multiplier after applying the house margin
-    let finalMultiplier = oddsMultiplier - houseMargin;
+    // Calculate the odds multiplier after applying the house margin
+    let finalMultiplier = riskFactor - houseMargin;
 
-    // Ensure the final multiplier never goes below 1 (to avoid no payout)
-    if (finalMultiplier < 1) {
-        finalMultiplier = 1; // No payout for low-risk bets
+    // Ensure a minimum multiplier (low-risk bets should barely profit)
+    if (finalMultiplier < 1.01) {
+        finalMultiplier = 1.01; // Minimum profit for low-risk bets
     }
 
-    // Cap the payout to avoid large payouts on predictable outcomes
-    const maxPayout = 5000;  // Maximum payout for any bet
-
-    // Calculate total payout based on bet amount and final multiplier
+    // Cap the payout to avoid excessive returns
+    const maxPayout = 5000; // Maximum payout cap
     let payout = amount * finalMultiplier;
 
-    // Apply payout cap
+    // Apply the payout cap
     if (payout > maxPayout) {
         payout = maxPayout;
     }
