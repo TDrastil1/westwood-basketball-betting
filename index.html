@@ -160,9 +160,9 @@
             // Calculate the payout (simple multiplier logic)
             let payout = 0;
             if (actualStat >= expectedStat) {
-                payout = amount * 1.5; // If actual stat is greater than or equal to expected, 1.5x payout
+                payout = amount * 2; // Fixed payout multiplier (2x the bet amount)
             } else {
-                payout = amount * 1.2; // If actual stat is less, 1.2x payout
+                payout = amount * 1.5; // If actual stat is less, 1.5x payout
             }
 
             // Display the possible payout
