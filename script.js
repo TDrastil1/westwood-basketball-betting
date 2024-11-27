@@ -49,21 +49,37 @@ document.getElementById("betForm").addEventListener("input", function (event) {
         averageStat = 1; // Default average for players with no stats
     }
 
+    // Adjusting the payout based on player stats and bet amount
+    let payout = 0;
+
     // Calculate the odds multiplier
     const oddsMultiplier = expectedStat / averageStat;
 
-    // Apply a profit margin (house always wins, reducing payouts)
-    const profitMargin = 0.3; // Increased margin to ensure the house wins more often
-    const finalMultiplier = Math.max(oddsMultiplier - profitMargin, 0.1); // Ensure minimum multiplier
+    // House margin to ensure house edge (30% margin)
+    const houseMargin = 0.3; 
+    let finalMultiplier = oddsMultiplier - houseMargin;
 
-    // Calculate total payout (includes the original bet)
-    const totalPayout = amount * (finalMultiplier + 1);
+    // Ensure the final multiplier never goes below 1 (no negative or zero payout)
+    if (finalMultiplier < 1) {
+        finalMultiplier = 1; 
+    }
 
-    // Display the possible payout in a simple format
+    // Cap the payout to avoid large bets resulting in inflated returns
+    const maxPayout = 5000;  // Set the max payout limit for large bets
+
+    // Calculate the total payout (finalMultiplier scaled by bet amount)
+    payout = amount * finalMultiplier;
+    
+    // Apply payout cap to avoid over-betting on predictable stats
+    if (payout > maxPayout) {
+        payout = maxPayout;
+    }
+
+    // Display the possible payout
     document.getElementById("payout").innerHTML = `
         <p><strong>Player:</strong> ${player}</p>
         <p><strong>Stat:</strong> ${stat.charAt(0).toUpperCase() + stat.slice(1)}</p>
-        <p><strong>Possible Payout:</strong> ${totalPayout.toFixed(2)} ς</p>
+        <p><strong>Possible Payout:</strong> ${payout.toFixed(2)} ς</p>
     `;
 });
 
