@@ -8,8 +8,8 @@
 
 /* Body Styling */
 body {
-    background-color: #f1f1f1; /* Soft light gray background */
-    color: #333; /* Dark text for readability */
+    background-color: #121212; /* Dark background */
+    color: #f5f5f5; /* Light text */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,9 +19,9 @@ body {
 
 /* Main Container */
 .container {
-    background: #ffffff; /* White background for content */
+    background: #1e1e1e; /* Slightly lighter dark background */
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Dark shadow for depth */
     width: 100%;
     max-width: 1200px;
     padding: 40px;
@@ -35,19 +35,19 @@ header {
 
 header h1 {
     font-size: 2.5rem;
-    color: #4CAF50; /* Soft green for the title */
+    color: #81c784; /* Muted green for header */
     margin-bottom: 10px;
 }
 
 header p {
     font-size: 1.1rem;
-    color: #666; /* Muted gray for the subtitle */
+    color: #b0bec5; /* Light grayish text */
 }
 
 /* Form Section */
 .betting-form h2 {
     font-size: 1.8rem;
-    color: #333; /* Dark text for readability */
+    color: #f5f5f5;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -61,7 +61,7 @@ label {
     display: block;
     font-size: 1rem;
     font-weight: bold;
-    color: #555; /* Muted dark gray */
+    color: #e0e0e0; /* Light gray */
     margin-bottom: 5px;
 }
 
@@ -71,62 +71,63 @@ select {
     padding: 12px;
     font-size: 1.1rem;
     border-radius: 8px;
-    border: 1px solid #ddd; /* Light gray border */
+    border: 1px solid #555; /* Dark border */
     outline: none;
-    background-color: #fafafa; /* Very light gray for inputs */
+    background-color: #333; /* Darker input background */
+    color: #f5f5f5;
     margin-bottom: 10px;
     transition: all 0.3s ease;
 }
 
 input:focus,
 select:focus {
-    border-color: #4CAF50; /* Green border on focus */
-    background-color: #fff; /* White background when focused */
-    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); /* Light green glow */
+    border-color: #81c784; /* Green border on focus */
+    background-color: #444; /* Dark background when focused */
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); /* Green glow */
 }
 
 /* Bet Summary */
 .bet-summary {
-    background-color: #eafaf1; /* Light green background */
+    background-color: #37474f; /* Dark blue-gray background */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .bet-summary h3 {
     font-size: 1.5rem;
-    color: #4CAF50;
+    color: #81c784;
     margin-bottom: 15px;
 }
 
 .bet-summary p {
     font-size: 1.1rem;
-    color: #444;
+    color: #f5f5f5;
 }
 
 /* Possible Payout Section */
 .payout-summary {
-    background-color: #f0f8f3; /* Soft background for payout section */
+    background-color: #455a64; /* Slightly lighter gray */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     margin-top: 20px;
 }
 
 .payout-summary h3 {
     font-size: 1.5rem;
-    color: #4CAF50;
+    color: #81c784;
     margin-bottom: 15px;
 }
 
 .payout-summary p {
     font-size: 1.1rem;
-    color: #444;
+    color: #f5f5f5;
 }
 
 /* Buttons */
 button {
-    background-color: #4CAF50; /* Green button */
+    background-color: #81c784; /* Green button */
     color: #fff;
     padding: 15px 25px;
     font-size: 1.2rem;
@@ -138,21 +139,21 @@ button {
 }
 
 button:hover {
-    background-color: #388E3C; /* Darker green when hovering */
+    background-color: #66bb6a; /* Slightly darker green */
 }
 
 /* Scoreboard Section */
 .scoreboard {
     margin-top: 40px;
     padding: 25px;
-    background-color: #ffffff;
+    background-color: #1e1e1e;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .scoreboard h3 {
     font-size: 2rem;
-    color: #4CAF50;
+    color: #81c784;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -167,27 +168,13 @@ table th,
 table td {
     padding: 12px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #555;
 }
 
 table th {
-    background-color: #4CAF50; /* Green headers */
+    background-color: #81c784; /* Green headers */
     color: white;
     font-weight: bold;
 }
 
-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Light gray for even rows */
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 30px;
-}
-
-footer p {
-    margin: 10px 0;
-}
+table tr:nth-child
