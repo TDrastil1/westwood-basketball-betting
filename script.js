@@ -49,28 +49,25 @@ document.getElementById("betForm").addEventListener("input", function (event) {
         averageStat = 1; // Default average for players with no stats
     }
 
-    // Adjusting the payout based on player stats and bet amount
-    let payout = 0;
-
     // Calculate the odds multiplier
     const oddsMultiplier = expectedStat / averageStat;
 
-    // House margin to ensure house edge (30% margin)
-    const houseMargin = 0.3; 
+    // House margin (30% margin to ensure profitability)
+    const houseMargin = 0.3;
     let finalMultiplier = oddsMultiplier - houseMargin;
 
-    // Ensure the final multiplier never goes below 1 (no negative or zero payout)
+    // Ensure the final multiplier never goes below 1
     if (finalMultiplier < 1) {
-        finalMultiplier = 1; 
+        finalMultiplier = 1; // No payout for low-risk bets
     }
 
-    // Cap the payout to avoid large bets resulting in inflated returns
-    const maxPayout = 5000;  // Set the max payout limit for large bets
+    // Cap the payout to avoid large payouts
+    const maxPayout = 5000;  // Maximum payout
 
-    // Calculate the total payout (finalMultiplier scaled by bet amount)
-    payout = amount * finalMultiplier;
-    
-    // Apply payout cap to avoid over-betting on predictable stats
+    // Calculate total payout
+    let payout = amount * finalMultiplier;
+
+    // Apply payout cap
     if (payout > maxPayout) {
         payout = maxPayout;
     }
