@@ -52,8 +52,8 @@ document.getElementById("betForm").addEventListener("input", function (event) {
     // Calculate the odds multiplier
     const oddsMultiplier = expectedStat / averageStat;
 
-    // Apply a profit margin (20% by default)
-    const profitMargin = 0.2;
+    // Apply a profit margin (house always wins, reducing payouts)
+    const profitMargin = 0.3; // Increased margin to ensure the house wins more often
     const finalMultiplier = Math.max(oddsMultiplier - profitMargin, 0.1); // Ensure minimum multiplier
 
     // Calculate total payout (includes the original bet)
