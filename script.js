@@ -59,7 +59,7 @@ document.getElementById("betForm").addEventListener("input", function (event) {
     // Calculate total payout (includes the original bet)
     const totalPayout = amount * (finalMultiplier + 1);
 
-    // Display the possible payout
+    // Display the possible payout in a simple format
     document.getElementById("payout").innerHTML = `
         <p><strong>Player:</strong> ${player}</p>
         <p><strong>Stat:</strong> ${stat.charAt(0).toUpperCase() + stat.slice(1)}</p>
