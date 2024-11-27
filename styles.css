@@ -3,117 +3,126 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-/* Basic Styling */
+/* Body Styling */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
+    background-color: #f9f9f9;
     color: #333;
+    line-height: 1.6;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    min-height: 100vh;
+    padding: 20px;
 }
 
+/* Main Container */
 .container {
-    width: 90%;
-    max-width: 700px;
-    background-color: #fff;
+    background: #fff;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
+/* Header Styling */
 header h1 {
-    font-size: 36px;
-    color: #2C3E50;
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 header p {
-    font-size: 18px;
-    color: #7F8C8D;
-    margin-top: 10px;
-}
-
-/* Form Styling */
-.betting-form h2 {
-    font-size: 24px;
-    color: #2C3E50;
-    margin-bottom: 20px;
     text-align: center;
+    color: #666;
+    font-size: 0.9rem;
 }
 
-.form-group {
+/* Form Section */
+.betting-form {
+    margin-top: 20px;
+}
+
+.betting-form h2 {
+    font-size: 1.2rem;
+    color: #333;
     margin-bottom: 20px;
 }
 
-.form-group label {
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
     display: block;
-    font-size: 16px;
-    color: #34495E;
-    margin-bottom: 8px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-.form-group select,
-.form-group input {
+input,
+select {
     width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #BDC3C7;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.2s;
 }
 
-.form-group input {
-    text-align: right;
+input:focus,
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
+/* Summary Section */
+.bet-summary {
+    margin: 20px 0;
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.bet-summary h3 {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #007bff;
+}
+
+#summary {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Button Styling */
 button {
-    background-color: #3498DB;
-    color: #fff;
-    padding: 15px 25px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
     width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #2980B9;
+    background-color: #0056b3;
 }
 
-/* Bet Summary */
-.bet-summary {
-    background-color: #ecf0f1;
-    padding: 20px;
-    border-radius: 8px;
+/* Footer Styling */
+footer {
     margin-top: 20px;
     text-align: center;
-}
-
-.bet-summary h3 {
-    font-size: 20px;
-    color: #2C3E50;
-    margin-bottom: 10px;
-}
-
-.bet-summary p {
-    font-size: 18px;
-    color: #7F8C8D;
-}
-
-footer {
-    text-align: center;
-    font-size: 14px;
-    color: #7F8C8D;
-    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #aaa;
 }
