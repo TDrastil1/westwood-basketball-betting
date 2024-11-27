@@ -52,19 +52,26 @@ document.getElementById("betForm").addEventListener("input", function (event) {
     // Calculate the odds multiplier
     const oddsMultiplier = expectedStat / averageStat;
 
-    // House margin (30% margin to ensure profitability)
-    const houseMargin = 0.3;
+    // Adjust the house margin for better balance: 10% for low-risk bets, more for high-risk bets
+    let houseMargin = 0.1; // 10% house margin for low-risk bets
+
+    // For higher-risk bets, reduce the house margin slightly (lower risk, higher margin)
+    if (oddsMultiplier > 1.5) {
+        houseMargin = 0.15; // 15% for more risky bets (higher payout)
+    }
+
+    // Calculate final multiplier after applying the house margin
     let finalMultiplier = oddsMultiplier - houseMargin;
 
-    // Ensure the final multiplier never goes below 1
+    // Ensure the final multiplier never goes below 1 (to avoid no payout)
     if (finalMultiplier < 1) {
         finalMultiplier = 1; // No payout for low-risk bets
     }
 
-    // Cap the payout to avoid large payouts
-    const maxPayout = 5000;  // Maximum payout
+    // Cap the payout to avoid large payouts on predictable outcomes
+    const maxPayout = 5000;  // Maximum payout for any bet
 
-    // Calculate total payout
+    // Calculate total payout based on bet amount and final multiplier
     let payout = amount * finalMultiplier;
 
     // Apply payout cap
