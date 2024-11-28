@@ -44,37 +44,44 @@ document.getElementById("betForm").addEventListener("input", function (event) {
     const stats = playerStats[player];
     let averageStat = stats[stat];
 
-    // Allow bets on players with 0 average stats
+    // Handle players with 0 stats by assigning a small default average
     if (averageStat === 0) {
         averageStat = 1; // Default average for players with no stats
     }
 
-    // Calculate the risk level (higher risk for larger gaps between expectedStat and averageStat)
+    // Calculate the risk factor: higher when expectedStat >> averageStat
     const riskFactor = expectedStat / averageStat;
 
     // Define the house margin dynamically based on risk
     let houseMargin;
     if (riskFactor <= 1.1) {
-        houseMargin = 0.45; // 45% margin for very low-risk bets
+        houseMargin = 0.5; // 50% margin for very low-risk bets
     } else if (riskFactor <= 1.5) {
-        houseMargin = 0.3; // 30% margin for medium-low risk
+        houseMargin = 0.35; // 35% margin for medium-low risk
     } else if (riskFactor <= 2) {
-        houseMargin = 0.15; // 15% margin for medium-high risk
+        houseMargin = 0.2; // 20% margin for medium-high risk
     } else {
         houseMargin = 0.1; // 10% margin for high-risk bets
     }
 
-    // Calculate the odds multiplier after applying the house margin
-    let finalMultiplier = riskFactor - houseMargin;
+    // Calculate the base multiplier after applying house margin
+    let baseMultiplier = riskFactor - houseMargin;
+
+    // Adjust the multiplier further based on player's average stats
+    if (averageStat < 5) {
+        baseMultiplier *= 0.85; // Reduce multiplier for low-stat players
+    } else if (averageStat < 10) {
+        baseMultiplier *= 0.9; // Slight reduction for medium-stat players
+    }
 
     // Ensure a minimum multiplier (low-risk bets should barely profit)
-    if (finalMultiplier < 1.01) {
-        finalMultiplier = 1.01; // Minimum profit for low-risk bets
+    if (baseMultiplier < 1.01) {
+        baseMultiplier = 1.01; // Minimum profit for low-risk bets
     }
 
     // Cap the payout to avoid excessive returns
     const maxPayout = 5000; // Maximum payout cap
-    let payout = amount * finalMultiplier;
+    let payout = amount * baseMultiplier;
 
     // Apply the payout cap
     if (payout > maxPayout) {
