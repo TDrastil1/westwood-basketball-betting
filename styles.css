@@ -1,34 +1,29 @@
-/* General Reset */
-* {
+/* General styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f9;  /* Soft background color */
+    color: #333;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Body Styling */
-body {
-    background-color: #121212; /* Dark theme */
-    color: #f5f5f5;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+    height: 100vh;
+    flex-direction: column;
 }
 
-/* Main Container */
+/* Container for the main content */
 .container {
-    width: 100%;
+    width: 80%;
     max-width: 1200px;
-    background-color: #1e1e1e;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    padding: 30px;
-    margin: 20px;
 }
 
-/* Header */
+/* Header styles */
 header {
     text-align: center;
     margin-bottom: 30px;
@@ -36,154 +31,212 @@ header {
 
 header h1 {
     font-size: 2.5rem;
-    color: #81c784; /* Green accent */
-    margin-bottom: 10px;
+    color: #4CAF50; /* Betting green color */
 }
 
 header p {
     font-size: 1.2rem;
-    color: #bdbdbd;
+    color: #777;
+    margin-top: 10px;
 }
 
-/* Form Section */
-.betting-form,
-.user-account,
-.bet-history,
-.leaderboard,
-.scoreboard {
-    margin-top: 20px;
-    background-color: #2c2c2c;
+/* User Account Section */
+.user-account {
+    background-color: #e8f4e8;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-h2, h3 {
-    color: #81c784;
-    margin-bottom: 15px;
+.user-account input {
+    padding: 10px;
+    width: 70%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.user-account button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.user-account button:hover {
+    background-color: #45a049;
+}
+
+/* Betting Form Section */
+.betting-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.betting-form h2 {
     text-align: center;
-}
-
-/* Form Group */
-.form-group {
+    font-size: 1.8rem;
     margin-bottom: 20px;
 }
 
-.form-group label {
+.betting-form .form-group {
+    margin-bottom: 15px;
+}
+
+.betting-form label {
     display: block;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #e0e0e0;
-    margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #555;
-    background-color: #333;
-    color: #f5f5f5;
-    outline: none;
-    transition: all 0.3s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #81c784;
-    background-color: #444;
-    box-shadow: 0 0 8px rgba(129, 199, 132, 0.3);
-}
-
-/* Buttons */
-.bet-button, #registerButton {
-    width: 100%;
-    padding: 15px;
     font-size: 1.2rem;
-    background-color: #81c784;
-    color: #fff;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.betting-form input, .betting-form select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.betting-form input[type="number"] {
+    width: 48%;
+    display: inline-block;
+    margin-right: 2%;
+}
+
+.betting-form button {
+    padding: 12px 25px;
+    background-color: #4CAF50;
     border: none;
+    color: white;
     border-radius: 8px;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    margin-top: 10px;
+    width: 100%;
 }
 
-.bet-button:hover, #registerButton:hover {
-    background-color: #66bb6a;
-    transform: translateY(-3px);
+.betting-form button:hover {
+    background-color: #45a049;
 }
 
-/* Payout Summary */
+/* Payout Section */
 .payout-summary {
+    background-color: #e8f4e8;
+    padding: 20px;
     margin-top: 20px;
-    padding: 10px;
-    background-color: #252525;
-    border: 1px solid #333;
     border-radius: 8px;
-    color: #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Bet History */
-.bet-history ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px;
+.payout-summary h3 {
+    text-align: center;
+    font-size: 1.5rem;
 }
 
-.bet-history li {
-    padding: 10px;
-    border-bottom: 1px solid #444;
-    color: #ddd;
+.payout-summary #payout {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4CAF50;
 }
 
-/* Leaderboard */
-.leaderboard ol {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px;
+/* Bet History Section */
+.bet-history, .leaderboard {
+    margin-top: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-.leaderboard li {
-    padding: 10px;
-    border-bottom: 1px solid #444;
-    color: #ddd;
+.bet-history h3, .leaderboard h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
 }
 
-/* Scoreboard */
+.bet-history ul, .leaderboard ol {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.bet-history li, .leaderboard li {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Scoreboard Section */
+.scoreboard {
+    margin-top: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.scoreboard h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
 .scoreboard table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 1rem;
-    margin-top: 10px;
 }
 
-.scoreboard th,
-.scoreboard td {
+.scoreboard th, .scoreboard td {
     padding: 12px;
     text-align: center;
-    border: 1px solid #555;
+    border: 1px solid #ddd;
 }
 
 .scoreboard th {
-    background-color: #81c784;
+    background-color: #4CAF50;
     color: white;
 }
 
-.scoreboard tr:nth-child(even) {
-    background-color: #2c2c2c;
+.scoreboard td {
+    background-color: #f9f9f9;
 }
 
-.scoreboard tr:nth-child(odd) {
-    background-color: #252525;
-}
-
-/* Footer */
+/* Footer Section */
 footer {
     text-align: center;
-    font-size: 0.9rem;
-    color: #bdbdbd;
-    margin-top: 20px;
+    margin-top: 50px;
+    font-size: 1rem;
+    color: #777;
+}
+
+footer p {
+    margin: 10px 0;
+}
+
+/* Custom Background */
+body {
+    background: url('background-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Betting Logo */
+header h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: white;
+}
+
+header p {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-top: 5px;
 }
