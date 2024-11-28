@@ -60,28 +60,29 @@ document.getElementById("betForm").addEventListener("input", function () {
     }
 
     const stats = playerStats[player];
-    let averageStat = stats[stat] || 1;  // Default to 1 if the stat doesn't exist
-    const riskFactor = expectedStat / averageStat;
+    let actualStat = stats[stat] || 0;  // Default to 0 if the stat doesn't exist
+    let riskFactor = expectedStat / actualStat;
 
-    // Apply a risk factor multiplier for high-risk bets
-    let payoutMultiplier = 1 + (riskFactor - 1) * 1.5;  // 1.5 is the multiplier factor for higher risk
+    // If riskFactor is less than 1, it's low risk, so set minimum multiplier
+    let payoutMultiplier = 1;  // Base multiplier
 
-    // If the risk factor is too low, set a minimum payout multiplier to avoid negative values
+    if (riskFactor > 1) {
+        // High risk (expecting more than actual stat), increase payout multiplier
+        payoutMultiplier = 1 + (riskFactor - 1) * 2;  // Risk increases payout
+    } else if (riskFactor < 1) {
+        // Low risk (expecting less than actual stat), decrease payout slightly
+        payoutMultiplier = 1 - (1 - riskFactor) * 0.5;  // Reduces payout
+    }
+
+    // Ensure the payout multiplier is never negative
     if (payoutMultiplier < 1) {
-        payoutMultiplier = 1;  // No negative payout
+        payoutMultiplier = 1;
     }
 
-    let houseMargin = 0.1;  // House margin to ensure profitability
+    // Apply a reasonable cap for the payout (e.g., 5000 ς max payout)
+    const payout = Math.min(amount * payoutMultiplier, 5000);
 
-    // Apply diminishing returns for extreme risk (to prevent runaway payouts)
-    if (riskFactor > 3) {
-        payoutMultiplier *= 0.85;
-    }
-
-    // Calculate payout
-    const payout = Math.min(amount * payoutMultiplier, 5000); // Cap the payout at 5000
-
-    // Update the payout display
+    // Display payout
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
 });
 
