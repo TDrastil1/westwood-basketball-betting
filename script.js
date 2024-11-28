@@ -51,9 +51,12 @@ document.getElementById("betForm").addEventListener("input", function () {
     // Calculate the "risk" factor (difference between expected and actual stats)
     const pointDifference = expectedStat - actualStat;
 
-    // Increase multiplier for higher risk (larger expected stat)
     if (pointDifference > 0) {
+        // High-risk bet: Increase the payout gradually as the expected stat increases
         payoutMultiplier = 1 + (pointDifference * 0.2); // Increase by 0.2 per point difference
+    } else if (pointDifference < 0) {
+        // Low-risk bet: If expected stat is lower than actual stat, give a smaller payout
+        payoutMultiplier = 1 + (pointDifference * 0.05); // Small multiplier for low-risk bets
     }
 
     // Ensure that the payout multiplier is not less than 1 (no negative payouts)
