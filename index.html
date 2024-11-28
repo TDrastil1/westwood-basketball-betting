@@ -12,7 +12,7 @@
         <!-- Header Section -->
         <header>
             <h1>Westwood Basketball Betting</h1>
-            <p>Bet on your favorite players and win big!</p>
+            <p>Place your bets and see the possible payouts!</p>
         </header>
 
         <!-- User Account Section -->
@@ -28,17 +28,12 @@
         <!-- Betting Form Section -->
         <div class="betting-form">
             <h2>Place Your Bet</h2>
-            <form id="betForm" action="https://formspree.io/f/your-form-id" method="POST">
-                <input type="hidden" name="userName" id="userNameInput" value="">
-                <!-- Email input for the user -->
-                <div class="form-group">
-                    <label for="email">Enter Your Email:</label>
-                    <input type="email" id="email" name="userEmail" required placeholder="Enter your email">
-                </div>
-                
+            <form id="betForm" action="https://formspree.io/f/xyzyplew" method="POST">
+                <!-- Hidden input to include the user's email -->
+                <input type="hidden" name="userEmail" id="userEmailInput" value="">
                 <div class="form-group">
                     <label for="player">Select Player:</label>
-                    <select id="player" name="player">
+                    <select id="player" name="player" required>
                         <option value="Matthew Suk">Matthew Suk</option>
                         <option value="Ari Piller">Ari Piller</option>
                         <option value="Evan Ludeman">Evan Ludeman</option>
@@ -53,7 +48,7 @@
                 </div>
                 <div class="form-group">
                     <label for="stat">Select Stat:</label>
-                    <select id="stat" name="stat">
+                    <select id="stat" name="stat" required>
                         <option value="points">Points</option>
                         <option value="assists">Assists</option>
                         <option value="rebounds">Rebounds</option>
