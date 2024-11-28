@@ -11,10 +11,7 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Bet history and leaderboard data
-const betHistory = [];
-const leaderboard = {};
-let currentUser = null; // Tracks the currently logged-in user
+let currentUserEmail = null;
 
 // Update scoreboard
 function updateScoreboard() {
@@ -33,57 +30,44 @@ function updateScoreboard() {
     }
 }
 
-// Update bet history
-function updateBetHistory(player, stat, expectedStat, amount, payout, outcome) {
-    betHistory.push({ player, stat, expectedStat, amount, payout, outcome });
-
-    const betHistoryList = document.getElementById("bet-history-list");
-    betHistoryList.innerHTML = ''; // Clear the list
-
-    betHistory.forEach((bet) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `You bet ${bet.amount} ς on ${bet.player} to achieve ${bet.expectedStat} ${bet.stat}. Outcome: ${bet.outcome} (${bet.payout.toFixed(2)} ς)`;
-        betHistoryList.appendChild(listItem);
-    });
-}
-
-// Update leaderboard
-function updateLeaderboard(userName, winnings) {
-    if (!leaderboard[userName]) {
-        leaderboard[userName] = 0;
-    }
-
-    leaderboard[userName] += winnings;
-
-    const leaderboardList = document.getElementById("leaderboard-list");
-    leaderboardList.innerHTML = '';
-
-    Object.entries(leaderboard)
-        .sort((a, b) => b[1] - a[1])
-        .forEach(([user, totalWinnings]) => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${user}: ${totalWinnings.toFixed(2)} ς`;
-            leaderboardList.appendChild(listItem);
-        });
-}
-
-// Register/Login User
-document.getElementById("registerButton").addEventListener("click", () => {
-    const userName = document.getElementById("registerName").value;
-    if (userName) {
-        currentUser = userName;
-        document.getElementById("currentUser").textContent = `Logged in as: ${userName}`;
-        document.getElementById("registerName").value = '';
+// Log in user
+document.getElementById("loginButton").addEventListener("click", () => {
+    const email = document.getElementById("loginEmail").value;
+    if (email) {
+        currentUserEmail = email;
+        document.getElementById("currentUser").textContent = `Logged in as: ${email}`;
+        document.getElementById("userEmailInput").value = email; // Update hidden input in the form
+        document.getElementById("loginEmail").value = ''; // Clear input
     } else {
-        alert("Please enter your name.");
+        alert("Please enter a valid email.");
     }
 });
 
-// Calculate and display payout
-function calculatePayout(player, stat, expectedStat, amount) {
+// Calculate payout dynamically
+document.getElementById("betForm").addEventListener("input", function (event) {
+    const player = document.getElementById("player").value;
+    const stat = document.getElementById("stat").value;
+    const amount = parseFloat(document.getElementById("amount").value);
+    const expectedStat = parseFloat(document.getElementById("expected-stat").value);
+
+    if (!player || !stat || isNaN(amount) || isNaN(expectedStat)) {
+        document.getElementById("payout").textContent = "Please fill in all fields.";
+        return;
+    }
+
     const stats = playerStats[player];
-    let averageStat = stats[stat] || 1; // Default to 1 if no stats available
+    let averageStat = stats[stat] || 1;
+
     const riskFactor = expectedStat / averageStat;
 
     let houseMargin = riskFactor <= 1 ? 0.8 : riskFactor <= 1.5 ? 0.4 : 0.15;
-    let statAdjustment
+    let payoutMultiplier = riskFactor - houseMargin;
+
+    payoutMultiplier = Math.max(payoutMultiplier, 1.01);
+    const payout = Math.min(amount * payoutMultiplier, 5000);
+
+    document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
+});
+
+// Initialize scoreboard
+updateScoreboard();
