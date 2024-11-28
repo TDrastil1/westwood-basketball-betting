@@ -13,6 +13,8 @@ const playerStats = {
 
 let currentUserEmail = null;
 let currentUserProfilePic = null;
+const betHistory = [];
+const leaderboard = {};
 
 // Google Sign-In callback function
 function onSignIn(googleUser) {
@@ -26,6 +28,9 @@ function onSignIn(googleUser) {
 
     // Update hidden input with email for form submission
     document.getElementById("userEmailInput").value = currentUserEmail;
+
+    // Show log out button
+    document.getElementById("logoutButton").style.display = "inline-block";
 }
 
 // Log out the user
@@ -34,6 +39,7 @@ function signOut() {
     auth2.signOut().then(function () {
         document.getElementById("currentUser").textContent = "No user logged in.";
         document.getElementById("profile-pic").src = ""; // Clear profile picture
+        document.getElementById("logoutButton").style.display = "none";
     });
 }
 
@@ -71,13 +77,4 @@ document.getElementById("betForm").addEventListener("input", function (event) {
 
     const riskFactor = expectedStat / averageStat;
 
-    let houseMargin = riskFactor <= 1 ? 0.8 : riskFactor <= 1.5 ? 0.4 : 0.15;
-    let payoutMultiplier = riskFactor - houseMargin;
-
-    // Diminishing returns for very high expected stats
-    if (riskFactor > 2) {
-        payoutMultiplier *= 0.9;
-    }
-
-    payoutMultiplier = Math.max(payoutMultiplier, 1.01);
-    const payout = Math.min(amount * payoutMultiplier, 500
+    let houseMargin = riskFactor <= 1 ? 0.8 : riskFactor <= 1.
