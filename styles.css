@@ -1,82 +1,53 @@
-/* Global styles */
+/* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
+    background-color: #f3f3f3; /* Neutral light gray for a balanced contrast */
     color: #333;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 /* Container */
 .container {
     width: 90%;
     max-width: 1200px;
-    margin: 30px auto;
-    text-align: center;
+    margin: 20px auto;
 }
 
-/* Header Section */
+/* Header */
 header {
-    background-color: #1D6E1C; /* Green for basketball */
+    background-color: #1D6E1C; /* Basketball green */
     color: white;
     text-align: center;
-    padding: 40px 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    margin-bottom: 30px;
+    padding: 30px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
     font-size: 3em;
     margin: 0;
-    letter-spacing: 1px;
+    font-family: 'Verdana', sans-serif;
 }
 
 header p {
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin-top: 10px;
-    font-weight: 300;
 }
 
-/* Form Section */
+/* Form Sections */
 .user-account,
 .betting-form,
 .bet-history,
 .leaderboard,
 .scoreboard {
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     padding: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-
-/* User Account */
-.user-account input,
-.user-account button {
-    padding: 12px;
-    font-size: 1em;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    margin: 5px;
-    display: inline-block;
-}
-
-.user-account button {
-    background-color: #1D6E1C;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.user-account button:hover {
-    background-color: #155D15;
 }
 
 /* Form Inputs */
@@ -84,87 +55,105 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    max-width: 400px;
+    gap: 15px;
 }
 
 .form-group label {
     font-weight: bold;
+    margin-bottom: 5px;
     font-size: 1em;
-    margin-bottom: 8px;
-    text-align: left;
 }
 
-.form-group input,
-.form-group select {
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    font-size: 1em;
-    background-color: #f9f9f9;
+input,
+select {
     width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.form-group button {
+/* Submit Button */
+form .bet-button {
+    background-color: #ff8c00; /* Basketball orange */
+    color: white;
     padding: 12px 20px;
     font-size: 1.2em;
-    border-radius: 6px;
-    background-color: #1D6E1C;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 50px;
     border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.form-group button:hover {
-    background-color: #155D15;
+form .bet-button:hover {
+    background-color: #e67600;
+    transform: scale(1.05);
 }
 
-/* Payout Section */
-.payout-summary {
-    font-size: 1.2em;
-    color: #333;
-    text-align: center;
-    margin-top: 20px;
+/* Basketball Animation */
+form .bet-button::before {
+    content: '';
+    background: url('https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png') no-repeat center center;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    transition: transform 0.3s ease-out;
 }
 
-.payout-summary #payout {
-    font-weight: bold;
-    color: #1D6E1C;
-    font-size: 1.4em;
+form .bet-button.clicked::before {
+    transform: translateX(-50%) scale(1);
+    animation: shoot 1s ease-out;
 }
 
-/* Bet History and Leaderboard */
-.bet-history ul,
-.leaderboard ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    text-align: left;
+form .bet-button.clicked::after {
+    content: '';
+    width: 100px;
+    height: 50px;
+    border: 4px solid #ff8c00;
+    border-top: none;
+    border-radius: 50%;
+    position: absolute;
+    top: -110px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    animation: fade-out 1s forwards;
 }
 
-.bet-history ul li,
-.leaderboard ol li {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Animation Keyframes */
+@keyframes shoot {
+    0% {
+        top: -80px;
+        transform: translateX(-50%) scale(1);
+    }
+    100% {
+        top: -200px;
+        transform: translateX(-50%) scale(0);
+    }
 }
 
-/* Scoreboard */
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Table Styling */
 .scoreboard table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    text-align: center;
 }
 
 .scoreboard th,
@@ -177,16 +166,10 @@ form {
 .scoreboard th {
     background-color: #1D6E1C;
     color: white;
-    font-size: 1.2em;
 }
 
 .scoreboard td {
     background-color: #f9f9f9;
-    font-size: 1em;
-}
-
-.scoreboard tr:hover td {
-    background-color: #eef5e1;
 }
 
 /* Footer */
@@ -194,34 +177,8 @@ footer {
     background-color: #1D6E1C;
     color: white;
     text-align: center;
-    padding: 20px;
-    font-size: 1em;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 15px;
     margin-top: 20px;
-}
-
-footer p {
-    margin: 0;
-}
-
-/* Mobile Responsiveness */
-@media screen and (max-width: 768px) {
-    .container {
-        width: 95%;
-    }
-
-    header h1 {
-        font-size: 2.5em;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group button {
-        font-size: 1em;
-    }
-
-    .scoreboard table {
-        font-size: 0.9em;
-    }
+    border-radius: 8px;
+    font-size: 1em;
 }
