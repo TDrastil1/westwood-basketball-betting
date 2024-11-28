@@ -62,6 +62,14 @@ document.getElementById("betForm").addEventListener("input", function () {
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
 });
 
+// Basketball animation trigger
+document.querySelector('.bet-button').addEventListener('click', function (e) {
+    e.target.classList.add('clicked');
+    setTimeout(() => {
+        e.target.classList.remove('clicked');
+    }, 1000); // Reset animation after 1 second
+});
+
 // Update scoreboard
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
