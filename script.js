@@ -12,7 +12,6 @@ const playerStats = {
 };
 
 let currentUserEmail = null;
-let currentUserProfilePic = null;
 const betHistory = [];
 const leaderboard = {};
 
@@ -20,13 +19,7 @@ const leaderboard = {};
 function onSignIn(googleUser) {
     const profile = googleUser.getBasicProfile();
     currentUserEmail = profile.getEmail();
-    currentUserProfilePic = profile.getImageUrl();
-
-    // Update UI with user's profile info
     document.getElementById("currentUser").textContent = `Logged in as: ${currentUserEmail}`;
-    document.getElementById("profile-pic").src = currentUserProfilePic;
-
-    // Update hidden input with email for form submission
     document.getElementById("userEmailInput").value = currentUserEmail;
 
     // Show log out button
@@ -38,7 +31,6 @@ function signOut() {
     const auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         document.getElementById("currentUser").textContent = "No user logged in.";
-        document.getElementById("profile-pic").src = ""; // Clear profile picture
         document.getElementById("logoutButton").style.display = "none";
     });
 }
@@ -53,9 +45,37 @@ document.getElementById("emailLoginButton").addEventListener("click", function()
     }
 });
 
-// Update scoreboard
+// Update scoreboard with player stats
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
     scoreboardBody.innerHTML = '';
     for (let player in playerStats) {
         const stats = playerStats[player];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${player}</td>
+            <td>${stats.points}</td>
+            <td>${stats.assists}</td>
+            <td>${stats.rebounds}</td>
+        `;
+        scoreboardBody.appendChild(row);
+    }
+}
+
+// Calculate payout dynamically
+document.getElementById("betForm").addEventListener("input", function (event) {
+    const player = document.getElementById("player").value;
+    const stat = document.getElementById("stat").value;
+    const amount = parseFloat(document.getElementById("amount").value);
+    const expectedStat = parseFloat(document.getElementById("expected-stat").value);
+
+    if (!player || !stat || isNaN(amount) || isNaN(expectedStat)) {
+        document.getElementById("payout").textContent = "Please fill in all fields.";
+        return;
+    }
+
+    const stats = playerStats[player];
+    let averageStat = stats[stat] || 1;
+    const riskFactor = expectedStat / averageStat;
+
+    let houseMargin = riskFactor
