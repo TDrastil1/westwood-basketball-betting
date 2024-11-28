@@ -16,7 +16,14 @@
             <p>Bet on your favorite players and win big!</p>
             <!-- Google Sign-In Button -->
             <div id="google-login" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-            <!-- Logged-in User Info -->
+
+            <!-- Login Form (Email Fallback) -->
+            <div id="email-login" class="email-login">
+                <input type="email" id="emailInput" placeholder="Enter your email" required>
+                <button type="button" id="emailLoginButton">Log In with Email</button>
+            </div>
+
+            <!-- Logged-in User Info (Email/Profile Pic) -->
             <div id="user-info">
                 <img id="profile-pic" class="profile-pic" src="" alt="Profile Picture">
                 <span id="currentUser">No user logged in.</span>
