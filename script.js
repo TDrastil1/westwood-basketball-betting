@@ -66,17 +66,12 @@ document.getElementById("betForm").addEventListener("input", function () {
     let riskFactor = expectedStat / actualStat;
 
     // Define the base payout multiplier (how much the payout increases per point)
-    let payoutMultiplier = 1;  // Base multiplier
+    let payoutMultiplier = 1;  // Base multiplier (no risk)
 
     // For bets that are close to the actual stat, the payout multiplier increases by small increments
     if (expectedStat > actualStat) {
         // Incrementally increase the payout based on the expected stat
-        payoutMultiplier = 1 + ((expectedStat - actualStat) * 0.2);  // 0.2 multiplier per point
-    }
-
-    // To avoid extreme payouts, limit the maximum payout multiplier
-    if (payoutMultiplier > 5) {
-        payoutMultiplier = 5;  // Cap the multiplier for very high-risk bets
+        payoutMultiplier = 1 + ((expectedStat - actualStat) * 0.1);  // 0.1 multiplier per point
     }
 
     // Ensure the payout multiplier doesn't go below 1 (no negative payouts)
@@ -84,7 +79,7 @@ document.getElementById("betForm").addEventListener("input", function () {
         payoutMultiplier = 1;
     }
 
-    // Calculate the payout based on the multiplier
+    // Apply a reasonable cap for the payout (e.g., 5000 ς max payout)
     const payout = Math.min(amount * payoutMultiplier, 5000);  // Cap the payout at 5000
 
     // Display payout
