@@ -61,26 +61,31 @@ document.getElementById("betForm").addEventListener("input", function () {
 
     const stats = playerStats[player];
     let actualStat = stats[stat] || 0;  // Default to 0 if the stat doesn't exist
+
+    // Calculate the "risk factor" based on the difference between expected and actual stats
     let riskFactor = expectedStat / actualStat;
 
-    // If riskFactor is less than 1, it's low risk, so set minimum multiplier
+    // Define the base payout multiplier (how much the payout increases per point)
     let payoutMultiplier = 1;  // Base multiplier
 
-    if (riskFactor > 1) {
-        // High risk (expecting more than actual stat), increase payout multiplier
-        payoutMultiplier = 1 + (riskFactor - 1) * 2;  // Risk increases payout
-    } else if (riskFactor < 1) {
-        // Low risk (expecting less than actual stat), decrease payout slightly
-        payoutMultiplier = 1 - (1 - riskFactor) * 0.5;  // Reduces payout
+    // For bets that are close to the actual stat, the payout multiplier increases by small increments
+    if (expectedStat > actualStat) {
+        // Incrementally increase the payout based on the expected stat
+        payoutMultiplier = 1 + ((expectedStat - actualStat) * 0.2);  // 0.2 multiplier per point
     }
 
-    // Ensure the payout multiplier is never negative
+    // To avoid extreme payouts, limit the maximum payout multiplier
+    if (payoutMultiplier > 5) {
+        payoutMultiplier = 5;  // Cap the multiplier for very high-risk bets
+    }
+
+    // Ensure the payout multiplier doesn't go below 1 (no negative payouts)
     if (payoutMultiplier < 1) {
         payoutMultiplier = 1;
     }
 
-    // Apply a reasonable cap for the payout (e.g., 5000 ς max payout)
-    const payout = Math.min(amount * payoutMultiplier, 5000);
+    // Calculate the payout based on the multiplier
+    const payout = Math.min(amount * payoutMultiplier, 5000);  // Cap the payout at 5000
 
     // Display payout
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
