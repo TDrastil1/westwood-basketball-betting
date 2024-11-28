@@ -8,15 +8,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Container */
 .container {
     width: 90%;
     max-width: 1200px;
-    margin-top: 50px;
+    margin: 30px auto;
+    text-align: center;
 }
 
 /* Header Section */
@@ -25,13 +26,13 @@ header {
     color: white;
     text-align: center;
     padding: 40px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     margin-bottom: 30px;
 }
 
 header h1 {
-    font-size: 3.5em;
+    font-size: 3em;
     margin: 0;
     letter-spacing: 1px;
 }
@@ -42,19 +43,29 @@ header p {
     font-weight: 300;
 }
 
-/* User Account Section */
-.user-account {
-    text-align: center;
+/* Form Section */
+.user-account,
+.betting-form,
+.bet-history,
+.leaderboard,
+.scoreboard {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     margin-bottom: 30px;
+    text-align: center;
 }
 
+/* User Account */
 .user-account input,
 .user-account button {
     padding: 12px;
     font-size: 1em;
     border-radius: 6px;
     border: 1px solid #ddd;
-    margin: 5px 0;
+    margin: 5px;
+    display: inline-block;
 }
 
 .user-account button {
@@ -68,48 +79,40 @@ header p {
     background-color: #155D15;
 }
 
-/* Betting Form Section */
-.bet-history, .leaderboard, .scoreboard {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 30px 0;
-}
-
-.bet-history h3, .leaderboard h3, .scoreboard h3 {
-    color: #1D6E1C;
-    font-size: 1.8em;
-    margin-bottom: 20px;
-}
-
+/* Form Inputs */
 form {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
+    width: 80%;
+    max-width: 400px;
 }
 
 .form-group label {
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1em;
     margin-bottom: 8px;
+    text-align: left;
 }
 
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
     padding: 12px;
     border-radius: 6px;
     border: 1px solid #ddd;
     font-size: 1em;
     background-color: #f9f9f9;
+    width: 100%;
 }
 
 .form-group button {
-    padding: 12px;
+    padding: 12px 20px;
     font-size: 1.2em;
     border-radius: 6px;
     background-color: #1D6E1C;
@@ -123,9 +126,12 @@ form {
     background-color: #155D15;
 }
 
+/* Payout Section */
 .payout-summary {
     font-size: 1.2em;
     color: #333;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .payout-summary #payout {
@@ -135,30 +141,34 @@ form {
 }
 
 /* Bet History and Leaderboard */
-ul, ol {
+.bet-history ul,
+.leaderboard ol {
     list-style: none;
     padding: 0;
+    margin: 0;
+    text-align: left;
 }
 
-ul li, ol li {
-    background-color: #f4f4f4;
+.bet-history ul li,
+.leaderboard ol li {
+    background-color: #f9f9f9;
     border: 1px solid #ddd;
     padding: 12px;
     border-radius: 6px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-ul li:hover, ol li:hover {
-    background-color: #eef5e1;
-}
-
+/* Scoreboard */
 .scoreboard table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    text-align: center;
 }
 
-.scoreboard th, .scoreboard td {
+.scoreboard th,
+.scoreboard td {
     text-align: center;
     padding: 15px;
     border: 1px solid #ddd;
@@ -186,9 +196,9 @@ footer {
     text-align: center;
     padding: 20px;
     font-size: 1em;
-    margin-top: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
 }
 
 footer p {
@@ -202,10 +212,16 @@ footer p {
     }
 
     header h1 {
-        font-size: 2.8em;
+        font-size: 2.5em;
     }
 
-    .form-group input, .form-group select, .form-group button {
+    .form-group input,
+    .form-group select,
+    .form-group button {
         font-size: 1em;
+    }
+
+    .scoreboard table {
+        font-size: 0.9em;
     }
 }
