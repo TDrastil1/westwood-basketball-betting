@@ -15,40 +15,12 @@ let currentUserEmail = null;
 const betHistory = [];
 const leaderboard = {};
 
-// Google Sign-In callback function
-function onSignIn(googleUser) {
-    const profile = googleUser.getBasicProfile();
-    currentUserEmail = profile.getEmail();
-    document.getElementById("currentUser").textContent = `Logged in as: ${currentUserEmail}`;
-    document.getElementById("userEmailInput").value = currentUserEmail;
-
-    // Show log out button
-    document.getElementById("logoutButton").style.display = "inline-block";
-}
-
-// Log out the user
-function signOut() {
-    const auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        document.getElementById("currentUser").textContent = "No user logged in.";
-        document.getElementById("logoutButton").style.display = "none";
-    });
-}
-
-// Log in with email
-document.getElementById("emailLoginButton").addEventListener("click", function() {
-    const email = document.getElementById("emailInput").value;
-    if (email) {
-        currentUserEmail = email;
-        document.getElementById("currentUser").textContent = `Logged in as: ${currentUserEmail}`;
-        document.getElementById("userEmailInput").value = currentUserEmail;
-    }
-});
-
 // Update scoreboard with player stats
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
-    scoreboardBody.innerHTML = '';
+    scoreboardBody.innerHTML = ''; // Clear previous rows
+
+    // Loop through player stats and generate table rows
     for (let player in playerStats) {
         const stats = playerStats[player];
         const row = document.createElement('tr');
@@ -61,6 +33,18 @@ function updateScoreboard() {
         scoreboardBody.appendChild(row);
     }
 }
+
+// Log in user via email
+document.getElementById("loginButton").addEventListener("click", () => {
+    const email = document.getElementById("loginEmail").value;
+    if (email) {
+        currentUserEmail = email;
+        document.getElementById("currentUser").textContent = `Logged in as: ${currentUserEmail}`;
+        document.getElementById("userEmailInput").value = currentUserEmail;
+    } else {
+        alert("Please enter a valid email.");
+    }
+});
 
 // Calculate payout dynamically
 document.getElementById("betForm").addEventListener("input", function (event) {
@@ -76,6 +60,22 @@ document.getElementById("betForm").addEventListener("input", function (event) {
 
     const stats = playerStats[player];
     let averageStat = stats[stat] || 1;
+
     const riskFactor = expectedStat / averageStat;
 
-    let houseMargin = riskFactor
+    let houseMargin = riskFactor <= 1 ? 0.8 : riskFactor <= 1.5 ? 0.4 : 0.15;
+    let payoutMultiplier = riskFactor - houseMargin;
+
+    // Diminishing returns for very high expected stats
+    if (riskFactor > 2) {
+        payoutMultiplier *= 0.9;
+    }
+
+    payoutMultiplier = Math.max(payoutMultiplier, 1.01);
+    const payout = Math.min(amount * payoutMultiplier, 5000);
+
+    document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
+});
+
+// Initialize scoreboard
+updateScoreboard();
