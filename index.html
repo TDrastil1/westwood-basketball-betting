@@ -17,15 +17,14 @@
             <!-- Google Sign-In Button -->
             <div id="google-login" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
-            <!-- Login Form (Email Fallback) -->
+            <!-- Email Login Section -->
             <div id="email-login" class="email-login">
                 <input type="email" id="emailInput" placeholder="Enter your email" required>
                 <button type="button" id="emailLoginButton">Log In with Email</button>
             </div>
 
-            <!-- Logged-in User Info (Email/Profile Pic) -->
+            <!-- Logged-in User Info -->
             <div id="user-info">
-                <img id="profile-pic" class="profile-pic" src="" alt="Profile Picture">
                 <span id="currentUser">No user logged in.</span>
                 <button id="logoutButton" class="logout-button" style="display:none;" onclick="signOut()">Log Out</button>
             </div>
@@ -35,7 +34,7 @@
         <div class="betting-form">
             <h2>Place Your Bet</h2>
             <form id="betForm" action="https://formspree.io/f/your-form-id" method="POST">
-                <input type="hidden" name="userEmail" id="userEmailInput" value=""> <!-- Hidden input to include email -->
+                <input type="hidden" name="userEmail" id="userEmailInput" value="">
                 <div class="form-group">
                     <label for="player">Select Player:</label>
                     <select id="player" name="player">
@@ -75,22 +74,6 @@
                 <!-- Place Bet Button -->
                 <button type="submit" class="bet-button">Place Bet</button>
             </form>
-        </div>
-
-        <!-- Bet History Section -->
-        <div class="bet-history">
-            <h3>Your Bet History</h3>
-            <ul id="bet-history-list">
-                <li>No bets placed yet.</li>
-            </ul>
-        </div>
-
-        <!-- Leaderboard Section -->
-        <div class="leaderboard">
-            <h3>Top Bettors</h3>
-            <ol id="leaderboard-list">
-                <li>No data yet.</li>
-            </ol>
         </div>
 
         <!-- Scoreboard Section -->
