@@ -62,16 +62,15 @@ document.getElementById("betForm").addEventListener("input", function () {
     const stats = playerStats[player];
     let actualStat = stats[stat] || 0;  // Default to 0 if the stat doesn't exist
 
-    // Calculate the "risk factor" based on the difference between expected and actual stats
-    let riskFactor = expectedStat / actualStat;
+    // Define a base payout multiplier of 1 for low-risk bets
+    let payoutMultiplier = 1;
 
-    // Define the base payout multiplier (how much the payout increases per point)
-    let payoutMultiplier = 1;  // Base multiplier (no risk)
+    // Calculate how much higher the expected stat is compared to the actual stat
+    const pointDifference = expectedStat - actualStat;
 
-    // Apply incremental increase based on the difference in points
-    if (expectedStat > actualStat) {
-        // Incrementally increase the payout based on the expected stat
-        payoutMultiplier = 1 + ((expectedStat - actualStat) * 0.1);  // Small multiplier increase for each point
+    if (pointDifference > 0) {
+        // Increment the multiplier for each additional point the user bets on (0.05 per point)
+        payoutMultiplier = 1 + (pointDifference * 0.05);
     }
 
     // Ensure the payout multiplier doesn't go below 1 (no negative payouts)
@@ -79,7 +78,7 @@ document.getElementById("betForm").addEventListener("input", function () {
         payoutMultiplier = 1;
     }
 
-    // Apply a reasonable cap for the payout (e.g., 5000 ς max payout)
+    // Cap the maximum payout at 5000 ς to prevent runaway payouts
     const payout = Math.min(amount * payoutMultiplier, 5000);  // Cap the payout at 5000
 
     // Display payout
