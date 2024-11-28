@@ -65,4 +65,82 @@ document.getElementById("betForm").addEventListener("input", function () {
 
     // Apply a risk factor multiplier for high-risk bets
     let payoutMultiplier = 1 + (riskFactor - 1) * 1.5;  // 1.5 is the multiplier factor for higher risk
-    let houseMargin = 0.1;
+    let houseMargin = 0.1;  // House margin to ensure profitability
+
+    // Apply diminishing returns for extreme risk (to prevent runaway payouts)
+    if (riskFactor > 3) {
+        payoutMultiplier *= 0.85;
+    }
+
+    const payout = Math.min(amount * payoutMultiplier, 5000); // Cap the payout at 5000
+
+    document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
+});
+
+// Save bet history and update leaderboard
+document.getElementById("betForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent form from submitting the default way
+
+    const player = document.getElementById("player").value;
+    const stat = document.getElementById("stat").value;
+    const amount = parseFloat(document.getElementById("amount").value);
+    const expectedStat = parseFloat(document.getElementById("expected-stat").value);
+    const email = document.getElementById("email").value;
+
+    // Store bet details
+    betHistory.push({
+        player,
+        stat,
+        expectedStat,
+        amount,
+        payout: document.getElementById("payout").textContent,
+        email
+    });
+
+    // Display bet history
+    updateBetHistory();
+
+    // Update leaderboard (simple version, sorts by highest bet)
+    leaderboard.push({ name: currentUserName, amount });
+    leaderboard.sort((a, b) => b.amount - a.amount); // Sort descending by amount
+    updateLeaderboard();
+
+    // Optionally, send email data through Formspree (already handled in form submission)
+    // Reset form after submission
+    document.getElementById("betForm").reset();
+});
+
+// Update Bet History display
+function updateBetHistory() {
+    const betHistoryList = document.getElementById("bet-history-list");
+    betHistoryList.innerHTML = ''; // Clear the list before adding new entries
+
+    if (betHistory.length === 0) {
+        betHistoryList.innerHTML = '<li>No bets placed yet.</li>';
+    } else {
+        betHistory.forEach(bet => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${currentUserName} bet ${bet.amount} ς on ${bet.player} to get ${bet.expectedStat} ${bet.stat}. Payout: ${bet.payout}`;
+            betHistoryList.appendChild(listItem);
+        });
+    }
+}
+
+// Update Leaderboard display
+function updateLeaderboard() {
+    const leaderboardList = document.getElementById("leaderboard-list");
+    leaderboardList.innerHTML = ''; // Clear the list before adding new entries
+
+    if (leaderboard.length === 0) {
+        leaderboardList.innerHTML = '<li>No data yet.</li>';
+    } else {
+        leaderboard.forEach(bettor => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${bettor.name}: ${bettor.amount} ς`;
+            leaderboardList.appendChild(listItem);
+        });
+    }
+}
+
+// Initialize scoreboard
+updateScoreboard();
