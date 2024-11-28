@@ -65,6 +65,12 @@ document.getElementById("betForm").addEventListener("input", function () {
 
     // Apply a risk factor multiplier for high-risk bets
     let payoutMultiplier = 1 + (riskFactor - 1) * 1.5;  // 1.5 is the multiplier factor for higher risk
+
+    // If the risk factor is too low, set a minimum payout multiplier to avoid negative values
+    if (payoutMultiplier < 1) {
+        payoutMultiplier = 1;  // No negative payout
+    }
+
     let houseMargin = 0.1;  // House margin to ensure profitability
 
     // Apply diminishing returns for extreme risk (to prevent runaway payouts)
@@ -72,8 +78,10 @@ document.getElementById("betForm").addEventListener("input", function () {
         payoutMultiplier *= 0.85;
     }
 
+    // Calculate payout
     const payout = Math.min(amount * payoutMultiplier, 5000); // Cap the payout at 5000
 
+    // Update the payout display
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
 });
 
