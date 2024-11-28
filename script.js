@@ -43,38 +43,19 @@ function signOut() {
     });
 }
 
+// Log in with email
+document.getElementById("emailLoginButton").addEventListener("click", function() {
+    const email = document.getElementById("emailInput").value;
+    if (email) {
+        currentUserEmail = email;
+        document.getElementById("currentUser").textContent = `Logged in as: ${currentUserEmail}`;
+        document.getElementById("userEmailInput").value = currentUserEmail;
+    }
+});
+
 // Update scoreboard
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
     scoreboardBody.innerHTML = '';
     for (let player in playerStats) {
         const stats = playerStats[player];
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${player}</td>
-            <td>${stats.points}</td>
-            <td>${stats.assists}</td>
-            <td>${stats.rebounds}</td>
-        `;
-        scoreboardBody.appendChild(row);
-    }
-}
-
-// Calculate payout dynamically
-document.getElementById("betForm").addEventListener("input", function (event) {
-    const player = document.getElementById("player").value;
-    const stat = document.getElementById("stat").value;
-    const amount = parseFloat(document.getElementById("amount").value);
-    const expectedStat = parseFloat(document.getElementById("expected-stat").value);
-
-    if (!player || !stat || isNaN(amount) || isNaN(expectedStat)) {
-        document.getElementById("payout").textContent = "Please fill in all fields.";
-        return;
-    }
-
-    const stats = playerStats[player];
-    let averageStat = stats[stat] || 1;
-
-    const riskFactor = expectedStat / averageStat;
-
-    let houseMargin = riskFactor <= 1 ? 0.8 : riskFactor <= 1.
