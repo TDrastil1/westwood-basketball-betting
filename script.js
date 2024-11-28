@@ -52,16 +52,14 @@ document.getElementById("betForm").addEventListener("input", function (event) {
     // Calculate the risk factor: higher when expectedStat >> averageStat
     const riskFactor = expectedStat / averageStat;
 
-    // Define the house margin dynamically based on risk
+    // Define the house margin dynamically based on risk tiers
     let houseMargin;
-    if (riskFactor <= 1.1) {
-        houseMargin = 0.5; // 50% margin for very low-risk bets
-    } else if (riskFactor <= 1.5) {
-        houseMargin = 0.35; // 35% margin for medium-low risk
-    } else if (riskFactor <= 2) {
-        houseMargin = 0.2; // 20% margin for medium-high risk
+    if (riskFactor <= 1.5) {
+        houseMargin = 0.45; // 45% margin for very low-risk bets
+    } else if (riskFactor <= 2.5) {
+        houseMargin = 0.3; // 30% margin for medium-risk bets
     } else {
-        houseMargin = 0.1; // 10% margin for high-risk bets
+        houseMargin = 0.15; // 15% margin for high-risk bets
     }
 
     // Calculate the base multiplier after applying house margin
@@ -72,6 +70,11 @@ document.getElementById("betForm").addEventListener("input", function (event) {
         baseMultiplier *= 0.85; // Reduce multiplier for low-stat players
     } else if (averageStat < 10) {
         baseMultiplier *= 0.9; // Slight reduction for medium-stat players
+    }
+
+    // Ensure moderate-risk bets have better scaling
+    if (riskFactor > 1.5 && riskFactor <= 2.5) {
+        baseMultiplier *= 1.1; // Boost medium-risk bets slightly
     }
 
     // Ensure a minimum multiplier (low-risk bets should barely profit)
