@@ -12,6 +12,8 @@ const playerStats = {
 };
 
 let currentUserEmail = null;
+const betHistory = [];
+const leaderboard = {};
 
 // Update scoreboard
 function updateScoreboard() {
