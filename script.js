@@ -12,6 +12,7 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
+// Variables for user login and bet tracking
 let currentUserName = null;
 let currentUserEmail = null;
 let betHistory = [];
@@ -44,32 +45,32 @@ document.getElementById("betForm").addEventListener("input", function () {
     }
 
     const stats = playerStats[player];
-    let actualStat = stats[stat] || 0;  // Default to 0 if the stat doesn't exist
+    const actualStat = stats[stat] || 0;  // Default to 0 if the stat doesn't exist
 
-    let payoutMultiplier = 1;
+    // Define constants for calculations
+    const riskFactor = 0.2;  // Scaling factor for risk
+    const houseEdge = 0.0476;  // 4.76% house edge
+    const maxMultiplier = 5;  // Cap on payout multiplier
 
-    // Calculate the "risk" factor (difference between expected and actual stats)
-    const pointDifference = expectedStat - actualStat;
-
-    if (pointDifference > 0) {
-        // High-risk bet: Increase the payout gradually as the expected stat increases
-        payoutMultiplier = 1 + (pointDifference * 0.2); // Increase by 0.2 per point difference
-    } else if (pointDifference < 0) {
-        // Low-risk bet: If expected stat is lower than actual stat, give a smaller payout
-        payoutMultiplier = 1 + (pointDifference * 0.05); // Small multiplier for low-risk bets
+    // Calculate payout multiplier
+    let multiplier = 1; // Base multiplier for low-risk bets
+    if (expectedStat > actualStat) {
+        // High-risk: Increase multiplier based on risk factor
+        multiplier = 1 + ((expectedStat - actualStat) / (actualStat + 1)) * riskFactor;
+    } else {
+        // Low-risk: Minimal payout for expectedStat <= actualStat
+        multiplier = 1 + (expectedStat / (actualStat + 1)) * 0.05;
     }
 
-    // Ensure that the payout multiplier is not less than 1 (no negative payouts)
-    if (payoutMultiplier < 1) {
-        payoutMultiplier = 1;
-    }
+    // Apply house edge
+    multiplier -= houseEdge;
 
-    // Cap the multiplier to avoid runaway payouts
-    if (payoutMultiplier > 5) {
-        payoutMultiplier = 5;
-    }
+    // Ensure multiplier is within bounds
+    if (multiplier < 1) multiplier = 1; // No negative payouts
+    if (multiplier > maxMultiplier) multiplier = maxMultiplier;
 
-    const payout = amount * payoutMultiplier;
+    // Calculate final payout
+    const payout = amount * multiplier;
 
     // Display the payout
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
@@ -92,13 +93,13 @@ document.getElementById("betForm").addEventListener("submit", function (event) {
         expectedStat,
         amount,
         payout: document.getElementById("payout").textContent,
-        email
+        email,
     });
 
     // Display bet history
     updateBetHistory();
 
-    // Update leaderboard (simple version, sorts by highest bet)
+    // Update leaderboard
     leaderboard.push({ name: currentUserName, amount });
     leaderboard.sort((a, b) => b.amount - a.amount); // Sort descending by amount
     updateLeaderboard();
@@ -110,47 +111,28 @@ document.getElementById("betForm").addEventListener("submit", function (event) {
 // Update Bet History display
 function updateBetHistory() {
     const betHistoryList = document.getElementById("bet-history-list");
-    betHistoryList.innerHTML = ''; // Clear the list before adding new entries
+    betHistoryList.innerHTML = ""; // Clear the list before adding new entries
 
     if (betHistory.length === 0) {
-        betHistoryList.innerHTML = '<li>No bets placed yet.</li>';
+        betHistoryList.innerHTML = "<li>No bets placed yet.</li>";
     } else {
-        betHistory.forEach(bet => {
-            const listItem = document.createElement('li');
+        betHistory.forEach((bet) => {
+            const listItem = document.createElement("li");
             listItem.textContent = `${currentUserName} bet ${bet.amount} ς on ${bet.player} to get ${bet.expectedStat} ${bet.stat}. Payout: ${bet.payout}`;
             betHistoryList.appendChild(listItem);
         });
     }
 }
 
-// Update Leaderboard display
-function updateLeaderboard() {
-    const leaderboardList = document.getElementById("leaderboard-list");
-    leaderboardList.innerHTML = ''; // Clear the list before adding new entries
-
-    if (leaderboard.length === 0) {
-        leaderboardList.innerHTML = '<li>No data yet.</li>';
-    } else {
-        leaderboard.forEach(bettor => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${bettor.name}: ${bettor.amount} ς`;
-            leaderboardList.appendChild(listItem);
-        });
-    }
-}
-
 // Initialize scoreboard
-updateScoreboard();
-
-// Function to update the scoreboard with player stats
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
-    scoreboardBody.innerHTML = ''; // Clear the table before adding rows
+    scoreboardBody.innerHTML = ""; // Clear the table before adding rows
 
-    // Loop through playerStats object and create table rows dynamically
+    // Populate stats dynamically
     for (let player in playerStats) {
         const stats = playerStats[player];
-        const row = document.createElement('tr');
+        const row = document.createElement("tr");
         row.innerHTML = `
             <td>${player}</td>
             <td>${stats.points}</td>
@@ -160,3 +142,4 @@ function updateScoreboard() {
         scoreboardBody.appendChild(row);
     }
 }
+updateScoreboard();
