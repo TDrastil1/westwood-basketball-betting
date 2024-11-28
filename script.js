@@ -12,8 +12,6 @@ const playerStats = {
 };
 
 let currentUserEmail = null;
-const betHistory = [];
-const leaderboard = {};
 
 // Update scoreboard
 function updateScoreboard() {
@@ -65,11 +63,12 @@ document.getElementById("betForm").addEventListener("input", function (event) {
     let houseMargin = riskFactor <= 1 ? 0.8 : riskFactor <= 1.5 ? 0.4 : 0.15;
     let payoutMultiplier = riskFactor - houseMargin;
 
+    // Diminishing returns for very high expected stats
+    if (riskFactor > 2) {
+        payoutMultiplier *= 0.9;
+    }
+
     payoutMultiplier = Math.max(payoutMultiplier, 1.01);
     const payout = Math.min(amount * payoutMultiplier, 5000);
 
-    document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
-});
-
-// Initialize scoreboard
-updateScoreboard();
+    document.getElementById("payout
