@@ -53,7 +53,7 @@ document.getElementById("betForm").addEventListener("input", function () {
 
     // Increase multiplier for higher risk (larger expected stat)
     if (pointDifference > 0) {
-        payoutMultiplier = 1 + (pointDifference * 0.1); // Increase by 0.1 per point difference
+        payoutMultiplier = 1 + (pointDifference * 0.2); // Increase by 0.2 per point difference
     }
 
     // Ensure that the payout multiplier is not less than 1 (no negative payouts)
@@ -66,8 +66,7 @@ document.getElementById("betForm").addEventListener("input", function () {
         payoutMultiplier = 5;
     }
 
-    // Calculate the final payout
-    const payout = Math.min(amount * payoutMultiplier, 5000);  // Cap the payout at 5000
+    const payout = amount * payoutMultiplier;
 
     // Display the payout
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
