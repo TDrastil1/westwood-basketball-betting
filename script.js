@@ -68,10 +68,10 @@ document.getElementById("betForm").addEventListener("input", function () {
     // Define the base payout multiplier (how much the payout increases per point)
     let payoutMultiplier = 1;  // Base multiplier (no risk)
 
-    // For bets that are close to the actual stat, the payout multiplier increases by small increments
+    // Apply incremental increase based on the difference in points
     if (expectedStat > actualStat) {
         // Incrementally increase the payout based on the expected stat
-        payoutMultiplier = 1 + ((expectedStat - actualStat) * 0.1);  // 0.1 multiplier per point
+        payoutMultiplier = 1 + ((expectedStat - actualStat) * 0.1);  // Small multiplier increase for each point
     }
 
     // Ensure the payout multiplier doesn't go below 1 (no negative payouts)
