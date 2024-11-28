@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Westwood Basketball Betting</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://apis.google.com/js/platform.js" async defer></script> <!-- Google Sign-In SDK -->
 </head>
 <body>
     <div class="container">
@@ -14,21 +13,17 @@
         <header>
             <h1>Westwood Basketball Betting</h1>
             <p>Bet on your favorite players and win big!</p>
-            <!-- Google Sign-In Button -->
-            <div id="google-login" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-
-            <!-- Email Login Section -->
-            <div id="email-login" class="email-login">
-                <input type="email" id="emailInput" placeholder="Enter your email" required>
-                <button type="button" id="emailLoginButton">Log In with Email</button>
-            </div>
-
-            <!-- Logged-in User Info -->
-            <div id="user-info">
-                <span id="currentUser">No user logged in.</span>
-                <button id="logoutButton" class="logout-button" style="display:none;" onclick="signOut()">Log Out</button>
-            </div>
         </header>
+
+        <!-- User Account Section -->
+        <div class="user-account">
+            <h3>Log In</h3>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                <button type="button" id="loginButton">Log In</button>
+            </form>
+            <p id="currentUser">No user logged in.</p>
+        </div>
 
         <!-- Betting Form Section -->
         <div class="betting-form">
@@ -74,6 +69,22 @@
                 <!-- Place Bet Button -->
                 <button type="submit" class="bet-button">Place Bet</button>
             </form>
+        </div>
+
+        <!-- Bet History Section -->
+        <div class="bet-history">
+            <h3>Your Bet History</h3>
+            <ul id="bet-history-list">
+                <li>No bets placed yet.</li>
+            </ul>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="leaderboard">
+            <h3>Top Bettors</h3>
+            <ol id="leaderboard-list">
+                <li>No data yet.</li>
+            </ol>
         </div>
 
         <!-- Scoreboard Section -->
