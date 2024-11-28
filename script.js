@@ -12,17 +12,17 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Log in user via name
 let currentUserName = null;
 let betHistory = [];
 let leaderboard = [];
 
+// Log in user via name
 document.getElementById("loginButton").addEventListener("click", function () {
     const name = document.getElementById("loginName").value;
     if (name) {
         currentUserName = name;
         document.getElementById("currentUser").textContent = `Logged in as: ${currentUserName}`;
-        document.getElementById("userNameInput").value = currentUserName; // Update the hidden input with the name
+        document.getElementById("userEmailInput").value = currentUserName; // Update the hidden input with the name
     } else {
         alert("Please enter a valid name.");
     }
@@ -43,15 +43,13 @@ document.getElementById("betForm").addEventListener("input", function () {
     const stats = playerStats[player];
     let actualStat = stats[stat] || 0;  // Default to 0 if the stat doesn't exist
 
-    // Define a base payout multiplier of 1 for low-risk bets
     let payoutMultiplier = 1;
 
-    // Calculate the "risk" factor, which is the difference between expected stat and actual stat
+    // Calculate the "risk" factor
     const pointDifference = expectedStat - actualStat;
 
     if (pointDifference > 0) {
-        // For every point above the actual stat, we increase the payout by 0.1 (small risk increment)
-        payoutMultiplier = 1 + (pointDifference * 0.1);
+        payoutMultiplier = 1 + (pointDifference * 0.1); // Increase by 0.1 per point difference
     }
 
     // Ensure the payout multiplier doesn't go below 1 (no negative payouts)
@@ -59,7 +57,6 @@ document.getElementById("betForm").addEventListener("input", function () {
         payoutMultiplier = 1;
     }
 
-    // Cap the maximum payout to avoid runaway scenarios (e.g., limit to 5000 ς)
     const payout = Math.min(amount * payoutMultiplier, 5000);  // Cap the payout at 5000
 
     // Display payout
@@ -74,7 +71,7 @@ document.getElementById("betForm").addEventListener("submit", function (event) {
     const stat = document.getElementById("stat").value;
     const amount = parseFloat(document.getElementById("amount").value);
     const expectedStat = parseFloat(document.getElementById("expected-stat").value);
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("userEmailInput").value;
 
     // Store bet details
     betHistory.push({
@@ -132,3 +129,22 @@ function updateLeaderboard() {
 
 // Initialize scoreboard
 updateScoreboard();
+
+// Function to update the scoreboard with player stats
+function updateScoreboard() {
+    const scoreboardBody = document.getElementById("scoreboard-body");
+    scoreboardBody.innerHTML = ''; // Clear the table before adding rows
+
+    // Loop through playerStats object and create table rows dynamically
+    for (let player in playerStats) {
+        const stats = playerStats[player];
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${player}</td>
+            <td>${stats.points}</td>
+            <td>${stats.assists}</td>
+            <td>${stats.rebounds}</td>
+        `;
+        scoreboardBody.appendChild(row);
+    }
+}
