@@ -160,25 +160,4 @@ form .bet-button.clicked::after {
 .scoreboard td {
     text-align: center;
     padding: 15px;
-    border: 1px solid #ddd;
-}
-
-.scoreboard th {
-    background-color: #1D6E1C;
-    color: white;
-}
-
-.scoreboard td {
-    background-color: #f9f9f9;
-}
-
-/* Footer */
-footer {
-    background-color: #1D6E1C;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 8px;
-    font-size: 1em;
-}
+    border: 1px solid
