@@ -11,7 +11,12 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Populate scoreboard
+// Bet history and leaderboard data
+const betHistory = [];
+const leaderboard = {};
+let currentUser = null; // Tracks the currently logged-in user
+
+// Update scoreboard
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
     scoreboardBody.innerHTML = '';
@@ -28,68 +33,57 @@ function updateScoreboard() {
     }
 }
 
-// Calculate payout dynamically
-document.getElementById("betForm").addEventListener("input", function (event) {
-    event.preventDefault();
-    const player = document.getElementById("player").value;
-    const stat = document.getElementById("stat").value;
-    const amount = parseFloat(document.getElementById("amount").value);
-    const expectedStat = parseFloat(document.getElementById("expected-stat").value);
+// Update bet history
+function updateBetHistory(player, stat, expectedStat, amount, payout, outcome) {
+    betHistory.push({ player, stat, expectedStat, amount, payout, outcome });
 
-    if (!player || !stat || isNaN(amount) || isNaN(expectedStat)) {
-        document.getElementById("payout").innerHTML = "Please fill in all fields.";
-        return;
+    const betHistoryList = document.getElementById("bet-history-list");
+    betHistoryList.innerHTML = ''; // Clear the list
+
+    betHistory.forEach((bet) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `You bet ${bet.amount} ς on ${bet.player} to achieve ${bet.expectedStat} ${bet.stat}. Outcome: ${bet.outcome} (${bet.payout.toFixed(2)} ς)`;
+        betHistoryList.appendChild(listItem);
+    });
+}
+
+// Update leaderboard
+function updateLeaderboard(userName, winnings) {
+    if (!leaderboard[userName]) {
+        leaderboard[userName] = 0;
     }
 
-    const stats = playerStats[player];
-    let averageStat = stats[stat];
+    leaderboard[userName] += winnings;
 
-    // Handle players with 0 stats by assigning a small default average
-    if (averageStat === 0) {
-        averageStat = 1; // Default average for players with no stats
-    }
+    const leaderboardList = document.getElementById("leaderboard-list");
+    leaderboardList.innerHTML = '';
 
-    // Calculate the risk factor: higher when expectedStat >> averageStat
-    const riskFactor = expectedStat / averageStat;
+    Object.entries(leaderboard)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([user, totalWinnings]) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${user}: ${totalWinnings.toFixed(2)} ς`;
+            leaderboardList.appendChild(listItem);
+        });
+}
 
-    // Define house margins for risk categories
-    let houseMargin;
-    if (riskFactor <= 1) {
-        houseMargin = 0.8; // Very high margin for low-risk bets
-    } else if (riskFactor <= 1.5) {
-        houseMargin = 0.4; // Moderate margin for medium-risk bets
+// Register/Login User
+document.getElementById("registerButton").addEventListener("click", () => {
+    const userName = document.getElementById("registerName").value;
+    if (userName) {
+        currentUser = userName;
+        document.getElementById("currentUser").textContent = `Logged in as: ${userName}`;
+        document.getElementById("registerName").value = '';
     } else {
-        houseMargin = 0.15; // Lower margin for high-risk bets
+        alert("Please enter your name.");
     }
-
-    // Calculate the base multiplier after applying house margin
-    let baseMultiplier = riskFactor - houseMargin;
-
-    // Adjust the multiplier further based on the player's average stats
-    const statAdjustmentFactor = Math.max(1 - averageStat / 20, 0.5); // Scales down payouts for high-stat players
-    baseMultiplier *= statAdjustmentFactor;
-
-    // Ensure a minimum multiplier (low-risk bets should barely profit)
-    if (baseMultiplier < 1.01) {
-        baseMultiplier = 1.01; // Minimum profit for low-risk bets
-    }
-
-    // Cap the payout to avoid excessive returns
-    const maxPayout = 5000; // Maximum payout cap
-    let payout = amount * baseMultiplier;
-
-    // Apply the payout cap
-    if (payout > maxPayout) {
-        payout = maxPayout;
-    }
-
-    // Display the possible payout
-    document.getElementById("payout").innerHTML = `
-        <p><strong>Player:</strong> ${player}</p>
-        <p><strong>Stat:</strong> ${stat.charAt(0).toUpperCase() + stat.slice(1)}</p>
-        <p><strong>Possible Payout:</strong> ${payout.toFixed(2)} ς</p>
-    `;
 });
 
-// Initialize the scoreboard
-updateScoreboard();
+// Calculate and display payout
+function calculatePayout(player, stat, expectedStat, amount) {
+    const stats = playerStats[player];
+    let averageStat = stats[stat] || 1; // Default to 1 if no stats available
+    const riskFactor = expectedStat / averageStat;
+
+    let houseMargin = riskFactor <= 1 ? 0.8 : riskFactor <= 1.5 ? 0.4 : 0.15;
+    let statAdjustment
