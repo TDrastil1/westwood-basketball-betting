@@ -12,30 +12,11 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
+// Log in user via name
 let currentUserName = null;
 let betHistory = [];
 let leaderboard = [];
 
-// Function to update the scoreboard with player stats
-function updateScoreboard() {
-    const scoreboardBody = document.getElementById("scoreboard-body");
-    scoreboardBody.innerHTML = ''; // Clear the table before adding rows
-
-    // Loop through the playerStats object and create a table row for each player
-    for (let player in playerStats) {
-        const stats = playerStats[player];
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${player}</td>
-            <td>${stats.points}</td>
-            <td>${stats.assists}</td>
-            <td>${stats.rebounds}</td>
-        `;
-        scoreboardBody.appendChild(row);
-    }
-}
-
-// Log in user via name
 document.getElementById("loginButton").addEventListener("click", function () {
     const name = document.getElementById("loginName").value;
     if (name) {
@@ -62,14 +43,14 @@ document.getElementById("betForm").addEventListener("input", function () {
     const stats = playerStats[player];
     let actualStat = stats[stat] || 0;  // Default to 0 if the stat doesn't exist
 
-    // Define a base payout multiplier of 1 for low-risk bets
+    // Define the base payout multiplier as 1 (no risk)
     let payoutMultiplier = 1;
 
-    // Calculate how much higher the expected stat is compared to the actual stat
+    // Calculate the "risk" factor, which is the difference between expected stat and actual stat
     const pointDifference = expectedStat - actualStat;
 
     if (pointDifference > 0) {
-        // Increment the multiplier for each additional point the user bets on (0.05 per point)
+        // For every point above the actual stat, we increase the payout by 0.05
         payoutMultiplier = 1 + (pointDifference * 0.05);
     }
 
@@ -78,7 +59,7 @@ document.getElementById("betForm").addEventListener("input", function () {
         payoutMultiplier = 1;
     }
 
-    // Cap the maximum payout at 5000 ς to prevent runaway payouts
+    // Cap the maximum payout to avoid runaway scenarios (e.g., limit to 5000 ς)
     const payout = Math.min(amount * payoutMultiplier, 5000);  // Cap the payout at 5000
 
     // Display payout
@@ -113,7 +94,6 @@ document.getElementById("betForm").addEventListener("submit", function (event) {
     leaderboard.sort((a, b) => b.amount - a.amount); // Sort descending by amount
     updateLeaderboard();
 
-    // Optionally, send email data through Formspree (already handled in form submission)
     // Reset form after submission
     document.getElementById("betForm").reset();
 });
