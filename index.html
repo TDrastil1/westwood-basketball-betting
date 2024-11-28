@@ -15,14 +15,20 @@
             <p>Bet on your favorite players and win big!</p>
         </header>
 
+        <!-- User Account Section -->
+        <div class="user-account">
+            <h3>Account</h3>
+            <form id="registerForm">
+                <input type="text" id="registerName" placeholder="Enter your name" required>
+                <button type="button" id="registerButton">Register/Login</button>
+            </form>
+            <p id="currentUser">No user logged in.</p>
+        </div>
+
         <!-- Betting Form Section -->
         <div class="betting-form">
             <h2>Place Your Bet</h2>
-            <form id="betForm" action="https://formspree.io/f/xyzyplew" method="POST">
-                <div class="form-group">
-                    <label for="userName">Your Name:</label>
-                    <input type="text" id="userName" name="userName" placeholder="Enter your name" required>
-                </div>
+            <form id="betForm">
                 <div class="form-group">
                     <label for="player">Select Player:</label>
                     <select id="player" name="player">
@@ -62,6 +68,22 @@
                 <!-- Place Bet Button -->
                 <button type="submit" class="bet-button">Place Bet</button>
             </form>
+        </div>
+
+        <!-- Bet History Section -->
+        <div class="bet-history">
+            <h3>Your Bet History</h3>
+            <ul id="bet-history-list">
+                <li>No bets placed yet.</li>
+            </ul>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="leaderboard">
+            <h3>Top Bettors</h3>
+            <ol id="leaderboard-list">
+                <li>No data yet.</li>
+            </ol>
         </div>
 
         <!-- Scoreboard Section -->
