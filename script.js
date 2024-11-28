@@ -38,22 +38,22 @@ document.getElementById("betForm").addEventListener("input", function () {
 
     const stats = playerStats[player];
     const actualStat = stats[stat] || 0; // Default to 0 if stat doesn't exist
-    const riskFactor = 0.15;
-    const houseEdge = 0.05;
-    const maxMultiplier = 5;
-
+    const houseEdge = 0.05; // 5% house edge
+    const riskFactor = 0.15; // Scaling factor for high-risk bets
+    const maxMultiplier = 5; // Cap on multiplier
     let multiplier = 1;
 
     if (expectedStat > actualStat) {
-        // High-risk bet: Scale payout
+        // High-risk bet: Scale payout proportionally
         multiplier = 1 + ((expectedStat - actualStat) / (actualStat + 1)) * riskFactor - houseEdge;
     } else {
-        // Low-risk bet: Minimal payout
-        multiplier = 1 + (0.05 * expectedStat);
+        // Low-risk bet: Minimal payout increase
+        multiplier = 1 + (0.01 * expectedStat); // Small increment per stat
     }
 
-    // Cap multiplier
-    multiplier = Math.min(multiplier, maxMultiplier);
+    // Ensure multiplier is within bounds
+    multiplier = Math.max(multiplier, 1); // Minimum multiplier is 1
+    multiplier = Math.min(multiplier, maxMultiplier); // Maximum multiplier is 5
 
     // Calculate final payout
     const payout = amount * multiplier;
