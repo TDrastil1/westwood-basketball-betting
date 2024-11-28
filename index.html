@@ -14,6 +14,7 @@
             <p>Place your bets and see the possible payouts!</p>
         </header>
 
+        <!-- User Login Section -->
         <div class="user-account">
             <h3>Log In</h3>
             <form id="loginForm">
@@ -24,6 +25,7 @@
             <p id="currentUser">No user logged in.</p>
         </div>
 
+        <!-- Betting Form Section -->
         <div class="betting-form">
             <h2>Place Your Bet</h2>
             <form id="betForm">
@@ -66,6 +68,41 @@
             </form>
         </div>
 
+        <!-- Bet History Section -->
+        <div class="bet-history">
+            <h3>Your Bet History</h3>
+            <ul id="bet-history-list">
+                <li>No bets placed yet.</li>
+            </ul>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="leaderboard">
+            <h3>Top Bettors</h3>
+            <ol id="leaderboard-list">
+                <li>No data yet.</li>
+            </ol>
+        </div>
+
+        <!-- Scoreboard Section -->
+        <div class="scoreboard">
+            <h3>Player Stats</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Points</th>
+                        <th>Assists</th>
+                        <th>Rebounds</th>
+                    </tr>
+                </thead>
+                <tbody id="scoreboard-body">
+                    <!-- Player stats will populate here dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
         <footer>
             <p>&copy; 2024 Westwood Basketball Betting. All Rights Reserved.</p>
         </footer>
