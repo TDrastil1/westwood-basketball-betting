@@ -17,10 +17,10 @@
 
         <!-- User Account Section -->
         <div class="user-account">
-            <h3>Account</h3>
-            <form id="registerForm">
-                <input type="text" id="registerName" placeholder="Enter your name" required>
-                <button type="button" id="registerButton">Register/Login</button>
+            <h3>Log In</h3>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                <button type="button" id="loginButton">Log In</button>
             </form>
             <p id="currentUser">No user logged in.</p>
         </div>
@@ -28,7 +28,8 @@
         <!-- Betting Form Section -->
         <div class="betting-form">
             <h2>Place Your Bet</h2>
-            <form id="betForm">
+            <form id="betForm" action="https://formspree.io/f/your-form-id" method="POST">
+                <input type="hidden" name="userEmail" id="userEmailInput" value=""> <!-- Hidden input to include email -->
                 <div class="form-group">
                     <label for="player">Select Player:</label>
                     <select id="player" name="player">
@@ -54,11 +55,11 @@
                 </div>
                 <div class="form-group">
                     <label for="expected-stat">Enter Expected Stat Amount:</label>
-                    <input type="number" id="expected-stat" name="expected-stat" required placeholder="e.g. 20">
+                    <input type="number" id="expected-stat" name="expectedStat" required placeholder="e.g. 20">
                 </div>
                 <div class="form-group">
                     <label for="amount">Enter Bet Amount (in ς):</label>
-                    <input type="number" id="amount" name="amount" min="1" max="500" required>
+                    <input type="number" id="amount" name="betAmount" min="1" max="500" required>
                 </div>
                 <div class="payout-summary">
                     <h3>Possible Payout</h3>
@@ -68,22 +69,6 @@
                 <!-- Place Bet Button -->
                 <button type="submit" class="bet-button">Place Bet</button>
             </form>
-        </div>
-
-        <!-- Bet History Section -->
-        <div class="bet-history">
-            <h3>Your Bet History</h3>
-            <ul id="bet-history-list">
-                <li>No bets placed yet.</li>
-            </ul>
-        </div>
-
-        <!-- Leaderboard Section -->
-        <div class="leaderboard">
-            <h3>Top Bettors</h3>
-            <ol id="leaderboard-list">
-                <li>No data yet.</li>
-            </ol>
         </div>
 
         <!-- Scoreboard Section -->
