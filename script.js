@@ -13,18 +13,21 @@ const playerStats = {
 };
 
 let currentUserName = null;
+let currentUserEmail = null;
 let betHistory = [];
 let leaderboard = [];
 
-// Log in user via name
+// Log in user via name and email
 document.getElementById("loginButton").addEventListener("click", function () {
     const name = document.getElementById("loginName").value;
-    if (name) {
+    const email = document.getElementById("loginEmail").value;
+    if (name && email) {
         currentUserName = name;
+        currentUserEmail = email;
         document.getElementById("currentUser").textContent = `Logged in as: ${currentUserName}`;
-        document.getElementById("userEmailInput").value = currentUserName; // Update the hidden input with the name
+        document.getElementById("userEmailInput").value = currentUserEmail; // Update the hidden input with the email
     } else {
-        alert("Please enter a valid name.");
+        alert("Please enter both your name and email.");
     }
 });
 
