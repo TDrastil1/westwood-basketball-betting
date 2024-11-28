@@ -12,6 +12,30 @@ const playerStats = {
 };
 
 let currentUserEmail = null;
+let currentUserProfilePic = null;
+
+// Google Sign-In callback function
+function onSignIn(googleUser) {
+    const profile = googleUser.getBasicProfile();
+    currentUserEmail = profile.getEmail();
+    currentUserProfilePic = profile.getImageUrl();
+
+    // Update UI with user's profile info
+    document.getElementById("currentUser").textContent = `Logged in as: ${currentUserEmail}`;
+    document.getElementById("profile-pic").src = currentUserProfilePic;
+
+    // Update hidden input with email for form submission
+    document.getElementById("userEmailInput").value = currentUserEmail;
+}
+
+// Log out the user
+function signOut() {
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        document.getElementById("currentUser").textContent = "No user logged in.";
+        document.getElementById("profile-pic").src = ""; // Clear profile picture
+    });
+}
 
 // Update scoreboard
 function updateScoreboard() {
@@ -29,19 +53,6 @@ function updateScoreboard() {
         scoreboardBody.appendChild(row);
     }
 }
-
-// Log in user
-document.getElementById("loginButton").addEventListener("click", () => {
-    const email = document.getElementById("loginEmail").value;
-    if (email) {
-        currentUserEmail = email;
-        document.getElementById("currentUser").textContent = `Logged in as: ${email}`;
-        document.getElementById("userEmailInput").value = email; // Update hidden input in the form
-        document.getElementById("loginEmail").value = ''; // Clear input
-    } else {
-        alert("Please enter a valid email.");
-    }
-});
 
 // Calculate payout dynamically
 document.getElementById("betForm").addEventListener("input", function (event) {
@@ -69,6 +80,4 @@ document.getElementById("betForm").addEventListener("input", function (event) {
     }
 
     payoutMultiplier = Math.max(payoutMultiplier, 1.01);
-    const payout = Math.min(amount * payoutMultiplier, 5000);
-
-    document.getElementById("payout
+    const payout = Math.min(amount * payoutMultiplier, 500
