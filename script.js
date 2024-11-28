@@ -48,21 +48,28 @@ document.getElementById("betForm").addEventListener("input", function () {
 
     let payoutMultiplier = 1;
 
-    // Calculate the "risk" factor
+    // Calculate the "risk" factor (difference between expected and actual stats)
     const pointDifference = expectedStat - actualStat;
 
+    // Increase multiplier for higher risk (larger expected stat)
     if (pointDifference > 0) {
         payoutMultiplier = 1 + (pointDifference * 0.1); // Increase by 0.1 per point difference
     }
 
-    // Ensure the payout multiplier doesn't go below 1 (no negative payouts)
+    // Ensure that the payout multiplier is not less than 1 (no negative payouts)
     if (payoutMultiplier < 1) {
         payoutMultiplier = 1;
     }
 
+    // Cap the multiplier to avoid runaway payouts
+    if (payoutMultiplier > 5) {
+        payoutMultiplier = 5;
+    }
+
+    // Calculate the final payout
     const payout = Math.min(amount * payoutMultiplier, 5000);  // Cap the payout at 5000
 
-    // Display payout
+    // Display the payout
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
 });
 
