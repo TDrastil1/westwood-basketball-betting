@@ -1,7 +1,7 @@
 /* Global styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f7f7f7;
     color: #333;
     margin: 0;
     padding: 0;
@@ -21,44 +21,72 @@ body {
 
 /* Header Section */
 header {
-    background-color: #1D6E1C; /* Green */
+    background-color: #1D6E1C; /* Green for basketball */
     color: white;
     text-align: center;
     padding: 40px 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
 }
 
 header h1 {
-    font-size: 3em;
+    font-size: 3.5em;
     margin: 0;
+    letter-spacing: 1px;
 }
 
 header p {
-    font-size: 1.2em;
-    margin: 10px 0 0;
+    font-size: 1.4em;
+    margin-top: 10px;
+    font-weight: 300;
 }
 
-/* Form and betting section */
+/* User Account Section */
+.user-account {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.user-account input,
+.user-account button {
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+}
+
+.user-account button {
+    background-color: #1D6E1C;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user-account button:hover {
+    background-color: #155D15;
+}
+
+/* Betting Form Section */
 .bet-history, .leaderboard, .scoreboard {
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 30px 0;
 }
 
 .bet-history h3, .leaderboard h3, .scoreboard h3 {
     color: #1D6E1C;
-    font-size: 1.6em;
+    font-size: 1.8em;
     margin-bottom: 20px;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 .form-group {
@@ -68,27 +96,31 @@ form {
 
 .form-group label {
     font-weight: bold;
+    font-size: 1.1em;
     margin-bottom: 8px;
-    font-size: 1em;
 }
 
-.form-group input, .form-group select, .form-group button {
+.form-group input, .form-group select {
     padding: 12px;
     border-radius: 6px;
     border: 1px solid #ddd;
     font-size: 1em;
-    background-color: #fafafa;
+    background-color: #f9f9f9;
 }
 
 .form-group button {
-    background-color: #1D6E1C; /* Green */
+    padding: 12px;
+    font-size: 1.2em;
+    border-radius: 6px;
+    background-color: #1D6E1C;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border: none;
 }
 
 .form-group button:hover {
-    background-color: #155D15; /* Darker Green */
+    background-color: #155D15;
 }
 
 .payout-summary {
@@ -99,6 +131,7 @@ form {
 .payout-summary #payout {
     font-weight: bold;
     color: #1D6E1C;
+    font-size: 1.4em;
 }
 
 /* Bet History and Leaderboard */
@@ -108,21 +141,21 @@ ul, ol {
 }
 
 ul li, ol li {
-    background-color: #f9f9f9;
+    background-color: #f4f4f4;
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 ul li:hover, ol li:hover {
     background-color: #eef5e1;
 }
 
-/* Scoreboard Table */
 .scoreboard table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 .scoreboard th, .scoreboard td {
@@ -132,7 +165,7 @@ ul li:hover, ol li:hover {
 }
 
 .scoreboard th {
-    background-color: #1D6E1C; /* Green */
+    background-color: #1D6E1C;
     color: white;
     font-size: 1.2em;
 }
@@ -148,14 +181,14 @@ ul li:hover, ol li:hover {
 
 /* Footer */
 footer {
-    background-color: #1D6E1C; /* Green */
+    background-color: #1D6E1C;
     color: white;
     text-align: center;
     padding: 20px;
     font-size: 1em;
     margin-top: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 footer p {
@@ -169,10 +202,10 @@ footer p {
     }
 
     header h1 {
-        font-size: 2.5em;
+        font-size: 2.8em;
     }
 
     .form-group input, .form-group select, .form-group button {
-        font-size: 0.9em;
+        font-size: 1em;
     }
 }
