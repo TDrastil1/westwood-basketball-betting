@@ -30,6 +30,12 @@
             <h2>Place Your Bet</h2>
             <form id="betForm" action="https://formspree.io/f/your-form-id" method="POST">
                 <input type="hidden" name="userName" id="userNameInput" value="">
+                <!-- Email input for the user -->
+                <div class="form-group">
+                    <label for="email">Enter Your Email:</label>
+                    <input type="email" id="email" name="userEmail" required placeholder="Enter your email">
+                </div>
+                
                 <div class="form-group">
                     <label for="player">Select Player:</label>
                     <select id="player" name="player">
