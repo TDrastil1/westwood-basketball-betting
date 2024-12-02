@@ -28,7 +28,8 @@
         <!-- Betting Form Section -->
         <div class="betting-form">
             <h2>Place Your Bet</h2>
-            <form id="betForm">
+            <form id="betForm" action="https://formspree.io/f/xyzyplew" method="POST">
+                <input type="hidden" name="userEmail" id="userEmailInput" value="">
                 <div class="form-group">
                     <label for="player">Select Player:</label>
                     <select id="player" name="player">
@@ -58,7 +59,7 @@
                 </div>
                 <div class="form-group">
                     <label for="amount">Enter Bet Amount (in ς):</label>
-                    <input type="number" id="amount" name="betAmount" min="1" required>
+                    <input type="number" id="amount" name="betAmount" min="1" max="500" required>
                 </div>
                 <div class="payout-summary">
                     <h3>Possible Payout</h3>
