@@ -12,32 +12,52 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Store user data and bet history
+// Global variables to track logged-in users and bet histories
 let currentUser = null;
 const userBetHistories = {};
 
-// Log in user via name and email
+// Log in user
 document.getElementById("loginButton").addEventListener("click", function () {
     const name = document.getElementById("loginName").value;
     const email = document.getElementById("loginEmail").value;
+
     if (name && email) {
+        currentUser = email;
         document.getElementById("currentUser").textContent = `Logged in as: ${name}`;
         document.getElementById("userEmailInput").value = email;
         document.getElementById("userNameInput").value = name;
-        currentUser = email;
 
         // Initialize bet history for the user if not already present
         if (!userBetHistories[email]) {
             userBetHistories[email] = [];
         }
-
         updateBetHistory();
     } else {
         alert("Please enter both your name and email.");
     }
 });
 
-// Calculate payout dynamically
+// Update the scoreboard
+function updateScoreboard() {
+    const scoreboardBody = document.getElementById("scoreboard-body");
+    scoreboardBody.innerHTML = ""; // Clear existing rows
+
+    // Populate the scoreboard with player stats
+    for (const player in playerStats) {
+        const stats = playerStats[player];
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${player}</td>
+            <td>${stats.points}</td>
+            <td>${stats.assists}</td>
+            <td>${stats.rebounds}</td>
+        `;
+        scoreboardBody.appendChild(row);
+    }
+}
+updateScoreboard(); // Ensure the scoreboard loads when the page is opened
+
+// Calculate the possible payout
 document.getElementById("betForm").addEventListener("input", function () {
     const player = document.getElementById("player").value;
     const stat = document.getElementById("stat").value;
@@ -51,26 +71,29 @@ document.getElementById("betForm").addEventListener("input", function () {
 
     const stats = playerStats[player];
     const actualStat = stats[stat] || 0; // Default to 0 if stat doesn't exist
-    const houseEdge = 0.05; // 5% house edge
-    const riskFactor = 0.15; // Scaling factor for high-risk bets
-    const maxMultiplier = 5; // Cap on multiplier
+    const houseEdge = 0.05; // House retains a 5% edge
+    const riskFactor = 0.15; // Higher risk increases payout
+    const maxMultiplier = 5; // Cap the multiplier
+
     let multiplier = 1;
 
     if (expectedStat > actualStat) {
+        // High-risk bet logic
         multiplier = 1 + ((expectedStat - actualStat) / (actualStat + 1)) * riskFactor - houseEdge;
     } else {
-        multiplier = 1 + (0.01 * expectedStat); // Small increment per stat
+        // Low-risk bet logic
+        multiplier = 1 + (0.01 * expectedStat); // Slight increase for low-risk
     }
 
-    multiplier = Math.max(multiplier, 1); // Minimum multiplier is 1
-    multiplier = Math.min(multiplier, maxMultiplier); // Maximum multiplier is 5
+    // Ensure multiplier stays within bounds
+    multiplier = Math.max(multiplier, 1); // Minimum payout is 1x the bet amount
+    multiplier = Math.min(multiplier, maxMultiplier); // Maximum payout is 5x the bet amount
 
     const payout = amount * multiplier;
-
     document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
 });
 
-// Handle bet submission
+// Submit bet and update bet history
 document.getElementById("betForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -100,7 +123,6 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
 
     const payout = amount * multiplier;
 
-    // Add bet to history
     if (currentUser) {
         const betDetails = {
             player,
@@ -114,14 +136,12 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
         updateBetHistory();
     }
 
-    // Send form to Formspree
+    // Submit the form to Formspree
     const formData = new FormData(e.target);
     fetch(e.target.action, {
         method: e.target.method,
         body: formData,
-        headers: {
-            Accept: "application/json",
-        },
+        headers: { Accept: "application/json" },
     })
         .then((response) => {
             if (response.ok) {
@@ -133,14 +153,14 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
             }
         })
         .catch((error) => {
-            alert("There was a network error. Please try again.");
+            alert("Network error. Please try again.");
         });
 });
 
-// Update bet history
+// Update the bet history dynamically
 function updateBetHistory() {
     const betHistoryList = document.getElementById("bet-history-list");
-    betHistoryList.innerHTML = "";
+    betHistoryList.innerHTML = ""; // Clear previous history
 
     if (currentUser && userBetHistories[currentUser]) {
         const bets = userBetHistories[currentUser];
@@ -157,22 +177,3 @@ function updateBetHistory() {
         betHistoryList.innerHTML = "<p>No bets placed yet.</p>";
     }
 }
-
-// Update scoreboard
-function updateScoreboard() {
-    const scoreboardBody = document.getElementById("scoreboard-body");
-    scoreboardBody.innerHTML = "";
-
-    for (let player in playerStats) {
-        const stats = playerStats[player];
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${player}</td>
-            <td>${stats.points}</td>
-            <td>${stats.assists}</td>
-            <td>${stats.rebounds}</td>
-        `;
-        scoreboardBody.appendChild(row);
-    }
-}
-updateScoreboard();
