@@ -70,7 +70,7 @@ select {
 
 /* Buttons */
 .form-button {
-    background-color: #ff8c00;
+    background-color: #1D6E1C; /* Changed to match the header/footer */
     color: white;
     padding: 12px 20px;
     font-size: 1.2em;
@@ -81,7 +81,7 @@ select {
 }
 
 .form-button:hover {
-    background-color: #e67600;
+    background-color: #145213; /* Slightly darker green on hover */
     transform: scale(1.05);
 }
 
