@@ -25,8 +25,22 @@ header {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header p {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
 /* Form Sections */
-.user-account, .betting-form, .bet-history, .leaderboard, .scoreboard {
+.user-account,
+.betting-form,
+.bet-history,
+.leaderboard,
+.scoreboard {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
@@ -35,7 +49,26 @@ header {
     text-align: center;
 }
 
-/* Buttons and Inputs */
+/* Form Inputs */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+input,
+select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
 .form-button {
     background-color: #ff8c00;
     color: white;
@@ -44,10 +77,44 @@ header {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .form-button:hover {
     background-color: #e67600;
     transform: scale(1.05);
+}
+
+/* Table Styling */
+.scoreboard table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.scoreboard th,
+.scoreboard td {
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.scoreboard th {
+    background-color: #1D6E1C;
+    color: white;
+}
+
+.scoreboard td {
+    background-color: #f9f9f9;
+}
+
+/* Footer */
+footer {
+    background-color: #1D6E1C;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-size: 1em;
 }
