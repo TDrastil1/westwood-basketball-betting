@@ -1,4 +1,4 @@
-// Sample player stats data
+// Player stats data
 const playerStats = {
     "Matthew Suk": { points: 2.0, assists: 4.0, rebounds: 4.0 },
     "Ari Piller": { points: 10.0, assists: 3.0, rebounds: 3.0 },
@@ -12,52 +12,32 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Global variables to track logged-in users and bet histories
-let currentUser = null;
-const userBetHistories = {};
+// Function to calculate payout
+function calculatePayout(player, stat, expectedStat, betAmount) {
+    const stats = playerStats[player];
+    const actualStat = stats[stat] || 0; // Default to 0 if stat not available
+    const houseEdge = 0.05; // House retains a 5% edge
+    const riskFactor = 0.15; // Higher-risk bets increase payouts
+    const maxMultiplier = 5; // Cap on the maximum multiplier
+    let multiplier = 1;
 
-// Log in user
-document.getElementById("loginButton").addEventListener("click", function () {
-    const name = document.getElementById("loginName").value;
-    const email = document.getElementById("loginEmail").value;
-
-    if (name && email) {
-        currentUser = email;
-        document.getElementById("currentUser").textContent = `Logged in as: ${name}`;
-        document.getElementById("userEmailInput").value = email;
-        document.getElementById("userNameInput").value = name;
-
-        // Initialize bet history for the user if not already present
-        if (!userBetHistories[email]) {
-            userBetHistories[email] = [];
-        }
-        updateBetHistory();
+    if (expectedStat > actualStat) {
+        // High-risk bet: The payout increases based on how much higher the bet is
+        multiplier = 1 + ((expectedStat - actualStat) * riskFactor) - houseEdge;
     } else {
-        alert("Please enter both your name and email.");
+        // Low-risk bet: Small increase for betting below or at the current stat
+        multiplier = 1 + ((expectedStat / actualStat) * 0.05); // Increment slightly
     }
-});
 
-// Update the scoreboard
-function updateScoreboard() {
-    const scoreboardBody = document.getElementById("scoreboard-body");
-    scoreboardBody.innerHTML = ""; // Clear existing rows
+    // Clamp multiplier between minimum and maximum values
+    multiplier = Math.max(multiplier, 1); // Minimum multiplier is 1x
+    multiplier = Math.min(multiplier, maxMultiplier); // Maximum multiplier is 5x
 
-    // Populate the scoreboard with player stats
-    for (const player in playerStats) {
-        const stats = playerStats[player];
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${player}</td>
-            <td>${stats.points}</td>
-            <td>${stats.assists}</td>
-            <td>${stats.rebounds}</td>
-        `;
-        scoreboardBody.appendChild(row);
-    }
+    const payout = betAmount * multiplier;
+    return payout.toFixed(2); // Return the payout as a fixed decimal
 }
-updateScoreboard(); // Ensure the scoreboard loads when the page is opened
 
-// Calculate the possible payout
+// Update possible payout dynamically
 document.getElementById("betForm").addEventListener("input", function () {
     const player = document.getElementById("player").value;
     const stat = document.getElementById("stat").value;
@@ -69,31 +49,11 @@ document.getElementById("betForm").addEventListener("input", function () {
         return;
     }
 
-    const stats = playerStats[player];
-    const actualStat = stats[stat] || 0; // Default to 0 if stat doesn't exist
-    const houseEdge = 0.05; // House retains a 5% edge
-    const riskFactor = 0.15; // Higher risk increases payout
-    const maxMultiplier = 5; // Cap the multiplier
-
-    let multiplier = 1;
-
-    if (expectedStat > actualStat) {
-        // High-risk bet logic
-        multiplier = 1 + ((expectedStat - actualStat) / (actualStat + 1)) * riskFactor - houseEdge;
-    } else {
-        // Low-risk bet logic
-        multiplier = 1 + (0.01 * expectedStat); // Slight increase for low-risk
-    }
-
-    // Ensure multiplier stays within bounds
-    multiplier = Math.max(multiplier, 1); // Minimum payout is 1x the bet amount
-    multiplier = Math.min(multiplier, maxMultiplier); // Maximum payout is 5x the bet amount
-
-    const payout = amount * multiplier;
-    document.getElementById("payout").textContent = `${payout.toFixed(2)} ς`;
+    const payout = calculatePayout(player, stat, expectedStat, amount);
+    document.getElementById("payout").textContent = `${payout} ς`;
 });
 
-// Submit bet and update bet history
+// Update bet history
 document.getElementById("betForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -104,24 +64,7 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
     const name = document.getElementById("userNameInput").value;
     const email = document.getElementById("userEmailInput").value;
 
-    const stats = playerStats[player];
-    const actualStat = stats[stat] || 0;
-    const houseEdge = 0.05;
-    const riskFactor = 0.15;
-    const maxMultiplier = 5;
-
-    let multiplier = 1;
-
-    if (expectedStat > actualStat) {
-        multiplier = 1 + ((expectedStat - actualStat) / (actualStat + 1)) * riskFactor - houseEdge;
-    } else {
-        multiplier = 1 + (0.01 * expectedStat);
-    }
-
-    multiplier = Math.max(multiplier, 1);
-    multiplier = Math.min(multiplier, maxMultiplier);
-
-    const payout = amount * multiplier;
+    const payout = calculatePayout(player, stat, expectedStat, amount);
 
     if (currentUser) {
         const betDetails = {
@@ -129,14 +72,13 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
             stat,
             expectedStat,
             amount,
-            payout: payout.toFixed(2),
+            payout,
             name,
         };
         userBetHistories[currentUser].push(betDetails);
         updateBetHistory();
     }
 
-    // Submit the form to Formspree
     const formData = new FormData(e.target);
     fetch(e.target.action, {
         method: e.target.method,
@@ -149,18 +91,39 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
                 e.target.reset();
                 document.getElementById("payout").textContent = "Fill in your bet details to see the payout.";
             } else {
-                alert("There was an error submitting your bet.");
+                alert("Error submitting your bet. Please check your details and try again.");
             }
         })
         .catch((error) => {
+            console.error("Submission error:", error);
             alert("Network error. Please try again.");
         });
 });
 
-// Update the bet history dynamically
+// Update scoreboard
+function updateScoreboard() {
+    const scoreboardBody = document.getElementById("scoreboard-body");
+    scoreboardBody.innerHTML = ""; // Clear current scoreboard
+
+    // Populate player stats in the scoreboard
+    for (const player in playerStats) {
+        const stats = playerStats[player];
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${player}</td>
+            <td>${stats.points}</td>
+            <td>${stats.assists}</td>
+            <td>${stats.rebounds}</td>
+        `;
+        scoreboardBody.appendChild(row);
+    }
+}
+updateScoreboard(); // Load stats on page load
+
+// Update bet history dynamically
 function updateBetHistory() {
     const betHistoryList = document.getElementById("bet-history-list");
-    betHistoryList.innerHTML = ""; // Clear previous history
+    betHistoryList.innerHTML = ""; // Clear previous bets
 
     if (currentUser && userBetHistories[currentUser]) {
         const bets = userBetHistories[currentUser];
