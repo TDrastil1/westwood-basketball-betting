@@ -1,4 +1,4 @@
-// Player stats data
+// Sample player stats data
 const playerStats = {
     "Matthew Suk": { points: 2.0, assists: 4.0, rebounds: 4.0 },
     "Ari Piller": { points: 10.0, assists: 3.0, rebounds: 3.0 },
@@ -12,7 +12,35 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Function to calculate payout
+// Track the current user and their bet history
+let currentUser = null;
+const userBetHistories = {};
+
+// Log in user
+document.getElementById("loginButton").addEventListener("click", function () {
+    const name = document.getElementById("loginName").value.trim();
+    const email = document.getElementById("loginEmail").value.trim();
+
+    if (name && email) {
+        currentUser = email;
+
+        // Update UI with logged-in user info
+        document.getElementById("currentUser").textContent = `Logged in as: ${name}`;
+        document.getElementById("userEmailInput").value = email;
+        document.getElementById("userNameInput").value = name;
+
+        // Initialize user bet history
+        if (!userBetHistories[email]) {
+            userBetHistories[email] = [];
+        }
+        updateBetHistory();
+        alert(`Welcome, ${name}!`);
+    } else {
+        alert("Please enter both your name and email to log in.");
+    }
+});
+
+// Calculate the possible payout
 function calculatePayout(player, stat, expectedStat, betAmount) {
     const stats = playerStats[player];
     const actualStat = stats[stat] || 0; // Default to 0 if stat not available
@@ -22,11 +50,11 @@ function calculatePayout(player, stat, expectedStat, betAmount) {
     let multiplier = 1;
 
     if (expectedStat > actualStat) {
-        // High-risk bet: The payout increases based on how much higher the bet is
+        // High-risk bet: Payout increases based on the risk
         multiplier = 1 + ((expectedStat - actualStat) * riskFactor) - houseEdge;
     } else {
-        // Low-risk bet: Small increase for betting below or at the current stat
-        multiplier = 1 + ((expectedStat / actualStat) * 0.05); // Increment slightly
+        // Low-risk bet: Smaller increase for betting below/at actual stat
+        multiplier = 1 + (0.01 * expectedStat); // Increment slightly
     }
 
     // Clamp multiplier between minimum and maximum values
@@ -53,7 +81,7 @@ document.getElementById("betForm").addEventListener("input", function () {
     document.getElementById("payout").textContent = `${payout} ς`;
 });
 
-// Update bet history
+// Submit bet and update bet history
 document.getElementById("betForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -100,10 +128,10 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
         });
 });
 
-// Update scoreboard
+// Update the scoreboard dynamically
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
-    scoreboardBody.innerHTML = ""; // Clear current scoreboard
+    scoreboardBody.innerHTML = ""; // Clear the current scoreboard
 
     // Populate player stats in the scoreboard
     for (const player in playerStats) {
