@@ -1,4 +1,4 @@
-// Sample player stats data
+// Player stats data
 const playerStats = {
     "Matthew Suk": { points: 2.0, assists: 4.0, rebounds: 4.0 },
     "Ari Piller": { points: 10.0, assists: 3.0, rebounds: 3.0 },
@@ -118,6 +118,7 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
                 alert("Bet submitted successfully!");
                 e.target.reset();
                 document.getElementById("payout").textContent = "Fill in your bet details to see the payout.";
+                playTransactionAnimation(); // Trigger animation on success
             } else {
                 alert("Error submitting your bet. Please check your details and try again.");
             }
@@ -167,4 +168,14 @@ function updateBetHistory() {
     } else {
         betHistoryList.innerHTML = "<p>No bets placed yet.</p>";
     }
+}
+
+// Animation for betting submission
+function playTransactionAnimation() {
+    const animationContainer = document.getElementById("bet-animation");
+    animationContainer.style.display = "block";
+
+    setTimeout(() => {
+        animationContainer.style.display = "none";
+    }, 1500);
 }
