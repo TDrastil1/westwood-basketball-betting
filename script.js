@@ -12,27 +12,22 @@ const playerStats = {
     "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
 };
 
-// Track the current user and their bet history
+// Track the current user and bet history
 let currentUser = null;
 const userBetHistories = {};
 
 // Log in user
-document.getElementById("loginButton").addEventListener("click", function () {
+document.getElementById("loginButton").addEventListener("click", () => {
     const name = document.getElementById("loginName").value.trim();
     const email = document.getElementById("loginEmail").value.trim();
 
     if (name && email) {
         currentUser = email;
-
-        // Update UI with logged-in user info
         document.getElementById("currentUser").textContent = `Logged in as: ${name}`;
         document.getElementById("userEmailInput").value = email;
         document.getElementById("userNameInput").value = name;
 
-        // Initialize user bet history
-        if (!userBetHistories[email]) {
-            userBetHistories[email] = [];
-        }
+        if (!userBetHistories[email]) userBetHistories[email] = [];
         updateBetHistory();
         alert(`Welcome, ${name}!`);
     } else {
@@ -43,30 +38,26 @@ document.getElementById("loginButton").addEventListener("click", function () {
 // Calculate the possible payout
 function calculatePayout(player, stat, expectedStat, betAmount) {
     const stats = playerStats[player];
-    const actualStat = stats[stat] || 0; // Default to 0 if stat not available
-    const houseEdge = 0.05; // House retains a 5% edge
-    const riskFactor = 0.15; // Higher-risk bets increase payouts
-    const maxMultiplier = 5; // Cap on the maximum multiplier
-    let multiplier = 1;
+    const actualStat = stats[stat] || 0;
+    const houseEdge = 0.05;
+    const riskFactor = 0.15;
+
+    let multiplier;
 
     if (expectedStat > actualStat) {
-        // High-risk bet: Payout increases based on the risk
         multiplier = 1 + ((expectedStat - actualStat) * riskFactor) - houseEdge;
     } else {
-        // Low-risk bet: Smaller increase for betting below/at actual stat
-        multiplier = 1 + (0.01 * expectedStat); // Increment slightly
+        multiplier = 1 + (0.01 * expectedStat) - houseEdge;
     }
 
-    // Clamp multiplier between minimum and maximum values
-    multiplier = Math.max(multiplier, 1); // Minimum multiplier is 1x
-    multiplier = Math.min(multiplier, maxMultiplier); // Maximum multiplier is 5x
+    multiplier = Math.max(multiplier, 1);
+    multiplier = Math.min(multiplier, 5);
 
-    const payout = betAmount * multiplier;
-    return payout.toFixed(2); // Return the payout as a fixed decimal
+    return (betAmount * multiplier).toFixed(2);
 }
 
-// Update possible payout dynamically
-document.getElementById("betForm").addEventListener("input", function () {
+// Update the payout dynamically
+document.getElementById("betForm").addEventListener("input", () => {
     const player = document.getElementById("player").value;
     const stat = document.getElementById("stat").value;
     const amount = parseFloat(document.getElementById("amount").value);
@@ -81,8 +72,8 @@ document.getElementById("betForm").addEventListener("input", function () {
     document.getElementById("payout").textContent = `${payout} ς`;
 });
 
-// Submit bet and update bet history
-document.getElementById("betForm").addEventListener("submit", function (e) {
+// Submit the bet and send data to Formspree
+document.getElementById("betForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
     const player = document.getElementById("player").value;
@@ -94,6 +85,7 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
 
     const payout = calculatePayout(player, stat, expectedStat, amount);
 
+    // Update bet history
     if (currentUser) {
         const betDetails = {
             player,
@@ -107,34 +99,28 @@ document.getElementById("betForm").addEventListener("submit", function (e) {
         updateBetHistory();
     }
 
+    // Send bet to Formspree
     const formData = new FormData(e.target);
     fetch(e.target.action, {
         method: e.target.method,
         body: formData,
-        headers: { Accept: "application/json" },
-    })
-        .then((response) => {
-            if (response.ok) {
-                alert("Bet submitted successfully!");
-                e.target.reset();
-                document.getElementById("payout").textContent = "Fill in your bet details to see the payout.";
-                playTransactionAnimation(); // Trigger animation on success
-            } else {
-                alert("Error submitting your bet. Please check your details and try again.");
-            }
-        })
-        .catch((error) => {
-            console.error("Submission error:", error);
-            alert("Network error. Please try again.");
-        });
+    }).then((response) => {
+        if (response.ok) {
+            alert("Bet submitted successfully!");
+            e.target.reset();
+            document.getElementById("payout").textContent = "Fill in your bet details to see the payout.";
+            playTransactionAnimation();
+        } else {
+            alert("Error submitting your bet.");
+        }
+    });
 });
 
-// Update the scoreboard dynamically
+// Update the scoreboard
 function updateScoreboard() {
     const scoreboardBody = document.getElementById("scoreboard-body");
-    scoreboardBody.innerHTML = ""; // Clear the current scoreboard
+    scoreboardBody.innerHTML = "";
 
-    // Populate player stats in the scoreboard
     for (const player in playerStats) {
         const stats = playerStats[player];
         const row = document.createElement("tr");
@@ -147,12 +133,12 @@ function updateScoreboard() {
         scoreboardBody.appendChild(row);
     }
 }
-updateScoreboard(); // Load stats on page load
+updateScoreboard();
 
 // Update bet history dynamically
 function updateBetHistory() {
     const betHistoryList = document.getElementById("bet-history-list");
-    betHistoryList.innerHTML = ""; // Clear previous bets
+    betHistoryList.innerHTML = "";
 
     if (currentUser && userBetHistories[currentUser]) {
         const bets = userBetHistories[currentUser];
@@ -161,7 +147,7 @@ function updateBetHistory() {
         } else {
             bets.forEach((bet) => {
                 const betItem = document.createElement("li");
-                betItem.textContent = `You bet ${bet.amount} ς on ${bet.player} to achieve ${bet.expectedStat} ${bet.stat}. Possible payout: ${bet.payout} ς.`;
+                betItem.textContent = `${bet.name} bet ${bet.amount} ς on ${bet.player} for ${bet.expectedStat} ${bet.stat}. Payout: ${bet.payout} ς.`;
                 betHistoryList.appendChild(betItem);
             });
         }
@@ -170,11 +156,10 @@ function updateBetHistory() {
     }
 }
 
-// Animation for betting submission
+// Transaction animation
 function playTransactionAnimation() {
     const animationContainer = document.getElementById("bet-animation");
     animationContainer.style.display = "block";
-
     setTimeout(() => {
         animationContainer.style.display = "none";
     }, 1500);
