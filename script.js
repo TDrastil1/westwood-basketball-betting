@@ -1,15 +1,16 @@
-// Player stats data
+// Player stats
 const playerStats = {
-    "Matthew Suk": { points: 2.0, assists: 4.0, rebounds: 4.0 },
-    "Ari Piller": { points: 10.0, assists: 3.0, rebounds: 3.0 },
-    "Evan Ludeman": { points: 4.0, assists: 4.0, rebounds: 0.0 },
-    "Valin Lively": { points: 0.0, assists: 1.0, rebounds: 4.0 },
-    "Reeyan Mistry": { points: 2.0, assists: 0.0, rebounds: 1.0 },
-    "Arman Aslan": { points: 0.0, assists: 3.0, rebounds: 4.0 },
-    "Ntito Josiah-Olu": { points: 0.0, assists: 0.0, rebounds: 0.0 },
-    "Cyrus Terry": { points: 4.0, assists: 6.0, rebounds: 3.0 },
-    "Pierre Tissot": { points: 14.0, assists: 6.0, rebounds: 6.0 },
-    "Mark Djomo": { points: 10.0, assists: 3.0, rebounds: 4.0 },
+    "M. Suk": { points: 6.0, assists: 0.5, rebounds: 3.0 },
+    "A. Piller": { points: 7.0, assists: 2.0, rebounds: 3.5 },
+    "E. Ludeman": { points: 6.5, assists: 1.5, rebounds: 1.0 },
+    "V. Lively": { points: 0.0, assists: 0.5, rebounds: 2.5 },
+    "R. Mistry": { points: 2.0, assists: 0.0, rebounds: 2.5 },
+    "A. Aslan": { points: 0.0, assists: 0.0, rebounds: 3.0 },
+    "J. Farooq": { points: 0.0, assists: 0.0, rebounds: 1.0 },
+    "U. Siddiqui": { points: 1.0, assists: 0.0, rebounds: 0.0 },
+    "C. Terry": { points: 6.0, assists: 2.5, rebounds: 2.5 },
+    "P. Tissot": { points: 17.5, assists: 1.5, rebounds: 5.5 },
+    "M. Djomo": { points: 10.0, assists: 1.0, rebounds: 4.0 }
 };
 
 // Track the current user and bet history
