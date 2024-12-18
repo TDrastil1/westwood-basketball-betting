@@ -7,20 +7,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: repeating-conic-gradient(
-            from 30deg,
-            #0000 0 120deg,
-            #3c3c3c 0 180deg
-        )
-        calc(0.5 * 200px) calc(0.5 * 200px * 0.577),
-    repeating-conic-gradient(
-        from 30deg,
-        #1d1d1d 0 60deg,
-        #4e4f51 0 120deg,
-        #3c3c3c 0 180deg
-    );
-    background-size: 200px calc(200px * 0.577);
-    color: #333;
+    background: #121212; /* Dark theme background */
+    color: #ffffff; /* Light text for contrast */
     line-height: 1.6;
 }
 
@@ -29,17 +17,17 @@ body {
     width: 90%;
     max-width: 1200px;
     margin: 20px auto;
-    background: #ffffff;
+    background: #1e1e1e; /* Slightly lighter dark background for contrast */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.9);
 }
 
 /* Header */
 header {
     text-align: center;
-    background-color: #1d6e1c;
-    color: #fff;
+    background-color: #272727;
+    color: #37FF8B;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -47,20 +35,21 @@ header {
 
 header h1 {
     font-size: 2.5em;
+    margin-bottom: 10px;
 }
 
 header p {
     font-size: 1.1em;
-    margin-top: 10px;
 }
 
 /* User Login Section */
 .user-account {
     text-align: center;
-    background: #e8f5e9;
+    background: #1a1a1a;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.8);
 }
 
 .user-account input {
@@ -68,22 +57,29 @@ header p {
     max-width: 300px;
     margin: 10px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     border-radius: 5px;
     font-size: 1em;
+    background: #333;
+    color: #fff;
 }
 
-/* Form Section */
+.user-account button {
+    margin-top: 15px;
+}
+
+/* Betting Form Section */
 .betting-form {
-    background-color: #f9f9f9;
+    background-color: #1a1a1a;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.8);
 }
 
 .betting-form h2 {
     text-align: center;
-    color: #1d6e1c;
+    color: #37FF8B;
     margin-bottom: 20px;
 }
 
@@ -104,12 +100,14 @@ header p {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     font-size: 1em;
+    background: #333;
+    color: #fff;
 }
 
 .payout-summary {
-    background-color: #e8f5e9;
+    background-color: #272727;
     padding: 10px;
     border-radius: 8px;
     text-align: center;
@@ -118,58 +116,54 @@ header p {
 
 .payout-summary h3 {
     margin: 0;
-    color: #1d6e1c;
+    color: #37FF8B;
 }
 
-/* Buttons - From Uiverse.io */
+/* Buttons */
 .button {
-    margin: 0;
-    height: auto;
+    display: inline-block;
+    position: relative;
     background: transparent;
-    padding: 0;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
-    --border-right: 6px;
-    --text-stroke-color: rgba(255, 255, 255, 0.6);
-    --animation-color: #37ff8b;
-    --fs-size: 1.2em;
-    letter-spacing: 3px;
-    text-decoration: none;
-    font-size: var(--fs-size);
+    font-size: 1.2em;
     font-family: "Arial", sans-serif;
-    position: relative;
-    text-transform: uppercase;
     color: transparent;
-    -webkit-text-stroke: 1px var(--text-stroke-color);
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 20px;
+    text-transform: uppercase;
+    -webkit-text-stroke: 1px #ffffff;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    letter-spacing: 2px;
 }
 
-.hover-text {
+.button .hover-text {
     position: absolute;
-    box-sizing: border-box;
     content: attr(data-text);
-    color: var(--animation-color);
+    color: #37FF8B;
     width: 0%;
     inset: 0;
-    border-right: var(--border-right) solid var(--animation-color);
+    border-right: 3px solid #37FF8B;
     overflow: hidden;
-    transition: 0.5s;
-    -webkit-text-stroke: 1px var(--animation-color);
+    -webkit-text-stroke: 1px #37FF8B;
+    transition: width 0.5s;
 }
 
 .button:hover .hover-text {
     width: 100%;
-    filter: drop-shadow(0 0 23px var(--animation-color));
 }
 
-/* Bet History */
+.button:hover .actual-text {
+    opacity: 0; /* Hides the original text */
+}
+
+/* Bet History Section */
 .bet-history {
-    background-color: #e8f5e9;
+    background-color: #272727;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+    color: #ffffff;
 }
 
 .bet-history ul {
@@ -177,16 +171,16 @@ header p {
 }
 
 .bet-history ul li {
-    background: #ffffff;
+    background: #333;
     padding: 10px;
     margin-bottom: 5px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
 }
 
-/* Leaderboard */
+/* Leaderboard Section */
 .leaderboard {
-    background-color: #f1f8e9;
+    background-color: #1a1a1a;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -195,14 +189,16 @@ header p {
 .leaderboard p {
     font-size: 1.1em;
     text-align: center;
+    color: #ffffff;
 }
 
-/* Scoreboard */
+/* Scoreboard Section */
 .scoreboard {
-    background-color: #f9f9f9;
+    background-color: #272727;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.8);
 }
 
 .scoreboard table {
@@ -214,18 +210,18 @@ header p {
 .scoreboard th,
 .scoreboard td {
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     text-align: center;
 }
 
 .scoreboard th {
     background-color: #1d6e1c;
     color: #fff;
-    text-transform: uppercase;
 }
 
 .scoreboard td {
-    background-color: #ffffff;
+    background-color: #333;
+    color: #fff;
 }
 
 /* Footer */
@@ -238,31 +234,30 @@ footer {
     margin-top: 20px;
 }
 
-/* Animation for Submission */
+/* Bet Submission Animation */
 #bet-animation {
     width: 460px;
     height: 120px;
-    background-color: white;
+    background-color: #272727;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 20px auto;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    animation: showTransaction 1.5s ease-in-out;
+    animation: fadeInOut 1.5s ease-in-out;
 }
 
-@keyframes showTransaction {
+@keyframes fadeInOut {
     0% {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: scale(0.9);
     }
     50% {
         opacity: 1;
-        transform: translateY(0px);
+        transform: scale(1);
     }
     100% {
         opacity: 0;
-        transform: translateY(20px);
+        transform: scale(0.9);
     }
 }
